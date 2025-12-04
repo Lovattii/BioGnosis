@@ -4,11 +4,21 @@ Articulado com o intuito de auxiliar no processo de cuidado e plantio, BioGnosis
 que possam monitorar as condições ideais de uma planta segundo um banco de dados definido em tempo de compilação. Para maiores distâncias, há um aplicativo conectado
 aos sensores que capta as informações e repassa ao usuário, facilitando seu trabalho à longo alcance, não limitando o sistema a um ambiente pessoal.
 
-# Componentes
+## Componentes
 
-# Funcionamento
+Para funcionamento do trabalho, utilizamos os seguintes componentes:
 
-# Colaboradores
+### Sensores
+
+— Sensor de umidade e temperatura do ar (MODELO)
+— Sensor de umidade do solo (MODELO)
+— Sensor de luminosidade (MODELO)
+
+### Aplicativo
+
+## Funcionamento
+
+## Colaboradores
 
 
 <table>
