@@ -32,7 +32,7 @@ aos sensores que capta as informações e repassa ao usuário, facilitando seu t
       </a>
     </td>
     <td align="center">
-      <img src="IMAGEM3" width="120"><br>
+      <img src="https://avatars.githubusercontent.com/u/237894667?v=4" width="120"><br>
       <strong>Guilherme Lovatti</strong><br>
       Developer<br>
       <a href="https://github.com/Lovattii">
