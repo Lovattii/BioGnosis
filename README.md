@@ -9,3 +9,36 @@ aos sensores que capta as informações e repassa ao usuário, facilitando seu t
 # Funcionamento
 
 # Colaboradores
+
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="IMAGEM1" width="120"><br>
+      <strong>Beatriz Videira</strong><br>
+      Scrum Master<br>
+      <a href="https://github.com/usuario1">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20">
+        GitHub
+      </a>
+    </td>
+    <td align="center">
+      <img src="IMAGEM2" width="120"><br>
+      <strong>Bernardo Francisco</strong><br>
+      Developer<br>
+      <a href="https://github.com/usuario2">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20">
+        GitHub
+      </a>
+    </td>
+    <td align="center">
+      <img src="IMAGEM3" width="120"><br>
+      <strong>Guilherme Lovatti</strong><br>
+      Developer<br>
+      <a href="https://github.com/Lovattii">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20">
+        GitHub
+      </a>
+    </td>
+  </tr>
+</table>
