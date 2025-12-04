@@ -10,9 +10,9 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
 
 ### Sensores
 
-— Sensor de umidade e temperatura do ar (MODELO)
-— Sensor de umidade do solo (MODELO)
-— Sensor de luminosidade (MODELO)
+— Sensor de umidade e temperatura do ar (MODELO) <br>
+— Sensor de umidade do solo (MODELO) <br>
+— Sensor de luminosidade (MODELO) <br>
 
 ### Aplicativo
 
@@ -42,6 +42,7 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
       </a>
     </td>
     <td align="center">
+      <br>
       <img src="https://avatars.githubusercontent.com/u/237894667?v=4" width="120"><br>
       <strong>Guilherme Lovatti</strong><br>
       Developer<br>
