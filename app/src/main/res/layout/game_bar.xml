@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:backgroundTint="@android:color/transparent"
+app:cardElevation="0dp"
+app:cardMaxElevation="0dp">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/icone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@null"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.pincel.LinearProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="170dp"
+        android:layout_height="15dp"
+        app:pgl_distance="5dp"
+        app:pgl_cornerRadius="20dp"
+        app:pgl_progress="50"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icone"
+        android:layout_marginLeft="12dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

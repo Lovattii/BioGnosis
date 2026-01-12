@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">myPlant</string>
+    <string name="alert_water_lower"> Atenção, os níves de água da sua planta estão abaixo do normal. Por favor, irrigue ela! </string>
+    <string name="alert_water_upper"> Atenção, sua planta está ficando enxarcada. Que tal deixar ela um tempo sem água?</string>
+    <string name="alert_sun_upper"> Atenção, a planta está muito exposta ao sol. Deixe ela mais tempo na sombra. </string>
+    <string name="alert_sun_lower"> Atenção, a fotossíntese é mais produtiva na luz solar. Coloque sua planta em um região mais iluminada.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

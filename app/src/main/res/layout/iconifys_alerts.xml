@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/transparent"
+    app:cardElevation="0dp"
+    app:cardMaxElevation="0dp">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="100dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/plant"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_plantinha"
+        android:tint="@color/verde_forte"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/propriety_of_plat"
+        android:src="@drawable/ic_gotinha"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/seta"
+        />
+
+    <ImageView
+        android:id="@+id/seta"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_seta_down"
+        android:tint="@color/azul_claro"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

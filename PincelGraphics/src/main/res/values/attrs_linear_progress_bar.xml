@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LinearProgressBar">
+        <attr name="pgl_progress" format="integer"/>
+        <attr name="pgl_cornerRadius" format="dimension"/>
+        <attr name="pgl_distance" format="dimension"/>
+        <attr name="pgl_backgroundColor1" format="color"/>
+        <attr name="pgl_backgroundColor2" format="color"/>
+        <attr name="pgl_progressColor1" format="color"/>
+        <attr name="pgl_progressColor2" format="color"/>
+
+    </declare-styleable>
+
+</resources>

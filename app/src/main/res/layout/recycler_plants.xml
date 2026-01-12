@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/shape_top_bordas_radius"
+    android:backgroundTint="@color/verde_ult_claro"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/lineGrossa"
+        android:layout_width="60dp"
+        android:layout_height="10dp"
+        app:cardBackgroundColor="@color/cinza"
+        app:strokeWidth="0dp"
+        android:layerType="software"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="15dp">
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:id="@+id/lineFine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/cinza"/>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="250dp"
+        android:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:clipToPadding="false"
+        android:visibility="gone"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    
+</LinearLayout>

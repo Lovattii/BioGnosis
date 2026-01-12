@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:padding="35dp">
+
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@color/white"
+    android:layerType="software"
+    app:cardCornerRadius="40dp"  app:strokeWidth="5dp"
+    app:strokeColor="@color/verde_forte"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="35dp">
+
+        <ImageView
+            android:id="@+id/ic_alert"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/verde_alert"
+            android:src="@drawable/ic_alert"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <include
+            android:id="@+id/iconifys_alerts"
+            layout="@layout/iconifys_alerts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_alert"/>
+
+        <TextView
+            android:id="@+id/text_main"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alert_water_lower"
+            android:textSize="25sp"
+            android:fontFamily="@font/righteous_regular"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iconifys_alerts" />
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="OK"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/ciano_forte"
+            android:textColor="@color/azul_macio"
+            android:fontFamily="@font/righteous_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_main"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
+
+

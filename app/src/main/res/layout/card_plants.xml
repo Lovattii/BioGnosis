@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/fundo_retangular_verde"
+        android:backgroundTint="@color/verde_clarin"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/fundo_verde_card"
+                android:layout_width="106dp"
+                android:layout_height="16dp"
+                android:background="@drawable/fundo_retangular_verde"
+                android:backgroundTint="@color/verde_esc_dif"
+                app:layout_constraintStart_toStartOf="@id/semente_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.example.pincel.LinearProgressBar
+                android:id="@+id/progressLifeBar"
+                android:layout_width="70dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="30dp"
+                app:pgl_distance="0dp"
+                app:pgl_cornerRadius="5dp"
+                app:layout_constraintStart_toStartOf="@id/fundo_verde_card"
+                app:layout_constraintEnd_toEndOf="@id/fundo_verde_card"
+                app:layout_constraintTop_toTopOf="@id/fundo_verde_card"
+                app:layout_constraintBottom_toBottomOf="@id/fundo_verde_card" />
+
+            <ImageView
+                android:id="@+id/semente_card"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/sements"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/txtIdadePlant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:textSize="18sp"
+                android:fontFamily="@font/righteous_regular"
+                android:textColor="@color/cinza"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@id/semente_card"
+                app:layout_constraintEnd_toEndOf="@id/semente_card"
+                app:layout_constraintTop_toTopOf="@id/semente_card"
+                app:layout_constraintBottom_toBottomOf="@id/semente_card" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/card_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/central_alface"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/plantName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/righteous_regular"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:text="ALFACE" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

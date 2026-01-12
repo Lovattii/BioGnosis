@@ -1,0 +1,107 @@
+<androidx.cardview.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+app:cardBackgroundColor="@android:color/transparent"
+app:cardElevation="0dp"
+app:cardMaxElevation="0dp">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/fundo_verde"
+        android:layout_width="360dp"
+        android:layout_height="80dp"
+        android:background="@drawable/fundo_retangular_verde"
+        android:backgroundTint="@color/verde_claro"
+        app:layout_constraintStart_toStartOf="@id/semente"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/semente"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:background="@null"
+        android:src="@drawable/sements"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="@id/semente"
+        app:layout_constraintBottom_toBottomOf="@id/semente"
+        app:layout_constraintStart_toStartOf="@id/semente"
+        app:layout_constraintEnd_toEndOf="@id/semente">
+
+        <TextView
+            android:id="@+id/plant_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:text="18"
+            android:fontFamily="@font/righteous_regular"
+            android:textColor="@color/white"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/righteous_regular"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:text="DIAS"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/fundo_verde"
+        app:layout_constraintTop_toTopOf="@id/fundo_verde"
+        app:layout_constraintStart_toEndOf="@id/semente"
+        app:layout_constraintEnd_toEndOf="@id/fundo_verde">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/barra_sol"
+            layout="@layout/game_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/barra_gota"
+            layout="@layout/game_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

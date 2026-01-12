@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<declare-styleable name="ring">
+    <attr name="bfm_backgroundWidth" format="integer|dimension" />
+
+    <attr name="bfm_progressWidth" format="integer|dimension" />
+
+    <attr name="bfm_deg_max" format="float" />
+
+    <attr name="bfm_progress" format="float" />
+
+    <attr name="bfm_progressColor1" format="color" />
+
+    <attr name="bfm_progressColor2" format="color" />
+
+</declare-styleable>
+</resources>
