@@ -1,10 +1,11 @@
 package com.example.myplant;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 @Entity(tableName = "Table_Registration")
 public class RegistrationPlant {
-
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public int id_plant;
     public long dataMedicao;
@@ -12,15 +13,23 @@ public class RegistrationPlant {
     public float luminosidade;
     public float umidade;
 
-    public RegistrationPlant() {
-        dataMedicao = System.currentTimeMillis();
+    @Ignore
+    private BioGnosisLifeCalculator calculator;
+
+    public RegistrationPlant(int id_plant, float temperatura, float luminosidade, float umidade, long dataMedicao)
+    {
+        this.id_plant = id_plant;
+        this.temperatura = temperatura;
+        this.luminosidade = luminosidade;
+        this.umidade = umidade;
+        this.dataMedicao = dataMedicao;
     }
 
     public float getUmidade() {
         return umidade;
     }
 
-    public int getId() {
+    public int getIdRegistration() {
         return id;
     }
 
@@ -38,5 +47,30 @@ public class RegistrationPlant {
 
     public long getDataMedicao() {
         return dataMedicao;
+    }
+
+    public double calculateLife(double idealTemperature, double toleranceTemperature, int weightTemperature,
+                                int idealLuminosity, int toleranceLuminosity, int weightLuminosity,
+                                int idealHumidity, int toleranceHumidity, int weightHumidity){
+        calculator = new BioGnosisLifeCalculator(idealTemperature, toleranceTemperature,
+                weightTemperature, idealLuminosity, toleranceLuminosity, weightLuminosity,
+                idealHumidity, toleranceHumidity, weightHumidity);
+
+        return calculator.calculateLife(temperatura, luminosidade, umidade);
+    }
+
+    public double calculateLuminosidade()
+    {
+        return calculator.getLumScore() * 100;
+    }
+
+    public double calculateUmidade()
+    {
+        return calculator.getHumScore() * 100;
+    }
+
+    public double calculateTemperatura()
+    {
+        return calculator.getTempScore() * 100;
     }
 }

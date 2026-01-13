@@ -23,7 +23,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class MqttWorker extends Worker {
-    private Context contexto;
+    private final Context contexto;
     private static final String url = "tcp://broker.hivemq.com:1883";
     private static final String topico = "bioGnosis/sensores/dados";
 
@@ -52,11 +52,11 @@ public class MqttWorker extends Worker {
         final boolean [] sucesso = {false};
 
         try{
-            MqttClient mqtt = new MqttClient(url, MqttClient.generateClientId(), new MemoryPersistence());
+            MqttClient mqtt = new MqttClient(url, "BioGnosisApp", new MemoryPersistence());
 
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(false);
-            options.setConnectionTimeout(10);
+            options.setConnectionTimeout(30);
 
             mqtt.setCallback(new MqttCallback() {
                 @Override
@@ -70,12 +70,9 @@ public class MqttWorker extends Worker {
                     Log.d("WORK_KA", "O QUE EU RECEBI :" + newMessage);
 
                     Gson json = new Gson();
-                    DadosEspPlant dados = json.fromJson(newMessage, DadosEspPlant.class);
+                    RegistrationPlant dados = json.fromJson(newMessage, RegistrationPlant.class);
                     AppDatabase db = AppDatabase.getDatabase(contexto);
-                    db.plantDAO().InsertRegistration(new RegistrationPlant(
-                            dados.getIdDado(),
-                            dados.getId_planta()));
-
+                    db.plantDAO().InsertRegistration(dados);
                     sucesso[0] = true;
                     latch.countDown();
                 }
@@ -87,9 +84,11 @@ public class MqttWorker extends Worker {
             });
 
             mqtt.connect(options);
-            mqtt.subscribe(topico);
+            mqtt.subscribe(topico, 1);
 
-            latch.await(10, TimeUnit.SECONDS);
+            if(latch.await(30, TimeUnit.SECONDS))
+                Log.d("WORK_KA", "chegou a zero");
+
             mqtt.disconnect();
         }
 

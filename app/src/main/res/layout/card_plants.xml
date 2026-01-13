@@ -43,6 +43,7 @@
                 android:layout_width="70dp"
                 android:layout_height="10dp"
                 android:layout_marginStart="30dp"
+                app:pgl_progress="100"
                 app:pgl_distance="0dp"
                 app:pgl_cornerRadius="5dp"
                 app:layout_constraintStart_toStartOf="@id/fundo_verde_card"

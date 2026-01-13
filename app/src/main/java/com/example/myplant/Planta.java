@@ -5,18 +5,18 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Table_Planta")
 public class Planta {
-
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey (autoGenerate = true)
     public int id;
 
+    public int idPlant;
     public String nome;
     public String specie;
     public int idImagePlant;
-
     public long dataCadrastro;
 
-    public Planta (String nome, String specie, int idImagePlant)
+    public Planta (String nome, String specie, int idImagePlant, int idPlant)
     {
+        this.idPlant = idPlant;
         this.nome = nome;
         this.idImagePlant = idImagePlant;
         this.specie = specie;
@@ -39,6 +39,10 @@ public class Planta {
 
     public long getDataCadrastro() {
         return dataCadrastro;
+    }
+
+    public int getIdPlant() {
+        return idPlant;
     }
 
     public int calculaDiasComMilli(long time)

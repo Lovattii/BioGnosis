@@ -17,30 +17,51 @@ app:cardMaxElevation="0dp">
         android:layout_height="80dp"
         android:background="@drawable/fundo_retangular_verde"
         android:backgroundTint="@color/verde_claro"
-        app:layout_constraintStart_toStartOf="@id/semente"
+        app:layout_constraintStart_toStartOf="@id/layout_semente"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
-    <ImageView
-        android:id="@+id/semente"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:background="@null"
-        android:src="@drawable/sements"
+    <FrameLayout
+        android:id="@+id/layout_semente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/semente"
+            android:layout_width="101dp"
+            android:layout_height="101dp"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:src="@drawable/sements"/>
+
+        <com.example.pincel.Ring
+            android:id="@+id/ring_temperature"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+
+            app:bfm_progressWidth="5dp"
+            app:bfm_backgroundWidth="5dp"
+            app:bfm_progress="0" />
+
+    </FrameLayout>
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="@id/semente"
-        app:layout_constraintBottom_toBottomOf="@id/semente"
-        app:layout_constraintStart_toStartOf="@id/semente"
-        app:layout_constraintEnd_toEndOf="@id/semente">
+        app:layout_constraintTop_toTopOf="@id/layout_semente"
+        app:layout_constraintBottom_toBottomOf="@id/layout_semente"
+        app:layout_constraintStart_toStartOf="@id/layout_semente"
+        app:layout_constraintEnd_toEndOf="@id/layout_semente">
 
         <TextView
             android:id="@+id/plant_days"
@@ -70,7 +91,7 @@ app:cardMaxElevation="0dp">
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/fundo_verde"
         app:layout_constraintTop_toTopOf="@id/fundo_verde"
-        app:layout_constraintStart_toEndOf="@id/semente"
+        app:layout_constraintStart_toEndOf="@id/layout_semente"
         app:layout_constraintEnd_toEndOf="@id/fundo_verde">
 
         <View

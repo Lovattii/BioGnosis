@@ -1,28 +1,27 @@
 package com.example.myplant;
 
-import android.media.Image;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.myplant.databinding.ActivityMainBinding;
 import com.example.pincel.LinearProgressBar;
+import com.example.pincel.Ring;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import meow.bottomnavigation.MeowBottomNavigation;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -32,6 +31,18 @@ public class HomeFragment extends Fragment {
     private long last_click_plantSHEET = 0;
     private View view;
     private View nivelBar;
+    private Planta plantMain;
+
+    public interface onPlantMain{
+        void ThisIsTheMainPlant(Planta p);
+    }
+    private onPlantMain listenerPlantCentral;
+
+    private LinearProgressBar progressBar1;
+    private LinearProgressBar progressBar2;
+    private Ring ringBar;
+
+    private Ring ringLife;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,9 +52,6 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
         nivelBar = view.findViewById(R.id.nivelBar);
-
-        InsertBancoPlants();
-        InsertPlants();
 
         initColorAndButtons();
         initPlantMain();
@@ -84,6 +92,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        AppDatabase db = AppDatabase.getDatabase(getContext());
+        db.plantDAO().ListenerLastRegistration(plantMain.getIdPlant()).observe(getViewLifecycleOwner(), new Observer<RegistrationPlant>() {
+            @Override
+            public void onChanged(RegistrationPlant registrationPlant) {
+                updateProgress(registrationPlant);
+            }
+        });
+
         return view;
     }
 
@@ -94,8 +110,31 @@ public class HomeFragment extends Fragment {
         setPlantInMain(firstPlant);
     }
 
+    public void updateProgress(RegistrationPlant registro)
+    {
+        ringLife.setProgressAnimation((float) registro.calculateLife(
+                23f, 5f, 20,
+                3500, 200, 50,
+                3800, 100, 30
+        ));
+
+        progressBar1.setProgressAnimation((float)registro.calculateLuminosidade());
+        progressBar2.setProgressAnimation((float)registro.calculateUmidade());
+        ringBar.setProgressAnimation((float)registro.calculateTemperatura());
+
+    }
     public void setPlantInMain(Planta p)
     {
+        plantMain = p;
+
+        if (listenerPlantCentral != null)
+            listenerPlantCentral.ThisIsTheMainPlant(p);
+
+        AppDatabase db = AppDatabase.getDatabase(getContext());
+        RegistrationPlant last_registro = db.plantDAO().GetLastRegistration(p.getIdPlant());
+
+        updateProgress(last_registro);
+
         TextView plantDays = nivelBar.findViewById(R.id.plant_days);
         TextView plantName = view.findViewById(R.id.plant_name);
         ImageView plantImage = view.findViewById(R.id.plant_image);
@@ -110,9 +149,10 @@ public class HomeFragment extends Fragment {
         View barraSol = nivelBar.findViewById(R.id.barra_sol);
         View barraGota = nivelBar.findViewById(R.id.barra_gota);
 
-
-        LinearProgressBar progressBar1 = barraSol.findViewById(R.id.progressBar);
-        LinearProgressBar progressBar2 = barraGota.findViewById(R.id.progressBar);
+        ringLife = view.findViewById(R.id.ringProgress);
+        ringBar = view.findViewById(R.id.ring_temperature);
+        progressBar1 = barraSol.findViewById(R.id.progressBar);
+        progressBar2 = barraGota.findViewById(R.id.progressBar);
 
         if (progressBar1.getProgressNow() <= 99)
         {
@@ -131,32 +171,19 @@ public class HomeFragment extends Fragment {
         progressBar2.setColorsBackground(ContextCompat.getColor(getContext(), R.color.ciano));
         progressBar2.setColorsProgress(ContextCompat.getColor(getContext(), R.color.azul_claro), ContextCompat.getColor(getContext(), R.color.azul_escuro));
 
+        ringBar.setBackIsNotAlpha(true);
+        ringBar.setColorsBackground(ContextCompat.getColor(getContext(), R.color.amarelo_claro), ContextCompat.getColor(getContext(), com.example.pincel.R.color.laranja_escuro) , ContextCompat.getColor(getContext(), R.color.red));
+        ringBar.setColorsProgress(android.R.color.transparent);
+
+        ringLife.setColorsProgress(
+            ContextCompat.getColor(getContext(),R.color.red),
+            ContextCompat.getColor(getContext(),R.color.laranja_escuro),
+            ContextCompat.getColor(getContext(),R.color.verde_escuro),
+            ContextCompat.getColor(getContext(),R.color.verde_urbano),
+            ContextCompat.getColor(getContext(),R.color.verde_esc_dif));
+
         ImageView icone2 = barraGota.findViewById(R.id.icone);
         icone2.setImageResource(R.drawable.gota);
-
-    }
-
-    private void InsertBancoPlants()
-    {
-        AppDatabase db = AppDatabase.getDatabase(getContext());
-        db.plantDAO().InsertBancoPlantsCadrastro(new BancoPlantsCadrastro("TOMATE-CEREJA", R.drawable.tomato));
-        db.plantDAO().InsertBancoPlantsCadrastro(new BancoPlantsCadrastro("CEBOLINHA", R.drawable.cebolinha));
-        db.plantDAO().InsertBancoPlantsCadrastro(new BancoPlantsCadrastro("COUVE-FLOR", R.drawable.couve_flor));
-    }
-
-    private void InsertPlants()
-    {
-        AppDatabase db = AppDatabase.getDatabase(getContext());
-        db.plantDAO().InsertNewPlant(new Planta("Alface", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfacea", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfa", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfaakds", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfacelans", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alface", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfacea", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfa", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfaakds", "ALFACE", R.drawable.central_alface));
-        db.plantDAO().InsertNewPlant(new Planta("Alfacelans", "ALFACE", R.drawable.central_alface));
     }
 
     public boolean canClick(long last_click)
@@ -172,5 +199,12 @@ public class HomeFragment extends Fragment {
         return false;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context)
+    {
+        super.onAttach(context);
+        if (context instanceof onPlantMain)
+            listenerPlantCentral = (onPlantMain) context;
+    }
 
 }

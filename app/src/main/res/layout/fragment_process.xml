@@ -11,9 +11,11 @@
         android:layout_height="match_parent"
         android:background="@color/verde_main" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/txtNameProcess"
@@ -24,11 +26,7 @@
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:fontFamily="@font/righteous_regular"
-                android:layout_margin="20dp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_margin="20dp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/estatisticasPlant"
@@ -194,13 +192,11 @@
                 android:id="@+id/chartPlantProcess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
+                android:layout_margin="30dp" />
 
-                app:layout_constraintTop_toBottomOf="@id/estatisticasPlant"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 
