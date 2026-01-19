@@ -34,10 +34,11 @@ O aplicativo conta com uma aba inicial que exibe a planta cadastrada, apresentan
 <table>
   <tr>
     <td align="center">
-      <img src="IMAGEM1" width="120"><br>
+      <br>
+      <img src="https://avatars.githubusercontent.com/u/217851668?v=4" width="120"><br>
       <strong>Beatriz Videira</strong><br>
       Scrum Master<br>
-      <a href="https://github.com/usuario1">
+      <a href="https://github.com/bvfreitas">
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20">
         GitHub
       </a>
