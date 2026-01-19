@@ -14,8 +14,8 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
 — Sensor de umidade e temperatura do ar (DHT11) <br>
 — Sensor de umidade do solo (Módulo sensor de umidade do solo) <br>
 — Sensor de luminosidade (LDR) <br>
-— Case de Baterias AA
-—
+— Case de Baterias AA <br>
+— 3 Pilhas AA alcalinas.<br>
 
 ### Software
 
