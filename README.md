@@ -8,13 +8,23 @@ aos sensores que capta as informações e repassa ao usuário, facilitando seu t
 
 Para funcionamento do trabalho, utilizamos os seguintes componentes:
 
-### Sensores
+### Hardware
 
-— Sensor de umidade e temperatura do ar (MODELO) <br>
-— Sensor de umidade do solo (MODELO) <br>
-— Sensor de luminosidade (MODELO) <br>
+— ESP32-C3 Super Mini <br>
+— Sensor de umidade e temperatura do ar (DHT11) <br>
+— Sensor de umidade do solo (Módulo sensor de umidade do solo) <br>
+— Sensor de luminosidade (LDR) <br>
+— Case de Baterias AA
+—
 
-### Aplicativo
+### Software
+
+##### Biognosis
+
+O BioGnosis é um aplicativo Android desenvolvido no Android Studio, utilizando Java e XML, com foco no monitoramento de plantas por meio de sensores. O projeto aplica conceitos de gamificação para tornar a interpretação de dados como luminosidade e umidade mais acessível a usuários sem conhecimento técnico na área de plantio, por meio de uma interface minimalista e intuitiva.
+
+O aplicativo conta com uma aba inicial que exibe a planta cadastrada, apresentando barras gamificadas de luminosidade, umidade e vida. Possui também uma aba para cadastro de novas plantas, permitindo definir nome e tipo da planta, uma aba responsável pelo registro de estatísticas de cada planta e uma tela dedicada às conquistas, que incentivam o engajamento contínuo do usuário.
+
 
 ## Funcionamento
 
