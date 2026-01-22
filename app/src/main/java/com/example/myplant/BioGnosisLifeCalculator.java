@@ -1,15 +1,15 @@
 package com.example.myplant;
 
 public class BioGnosisLifeCalculator {
-    private double idealTemperature;
-    private double toleranceTemperature;
-    private int weightTemperature;
-    private int idealLuminosity;
-    private int toleranceLuminosity;
-    private int weightLuminosity;
-    private int idealHumidity;
-    private int toleranceHumidity;
-    private int weightHumidity;
+    private final double idealTemperature;
+    private final double toleranceTemperature;
+    private final int weightTemperature;
+    private final int idealLuminosity;
+    private final int toleranceLuminosity;
+    private final int weightLuminosity;
+    private final int idealHumidity;
+    private final int toleranceHumidity;
+    private final int weightHumidity;
 
     private double tempScore;
     private double lumScore;

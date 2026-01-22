@@ -17,6 +17,9 @@ public interface PlantDAO {
     @Insert
     void InsertNewPlant(Planta plant);
 
+    @Insert
+    void InsertAllListRegistration(List<RegistrationPlant> registros);
+
     @Query("SELECT * FROM Table_Banco_Plants")
     List<BancoPlantsCadrastro> GetBancoOfPlants();
 
@@ -30,6 +33,9 @@ public interface PlantDAO {
 
     @Query("SELECT COUNT (*) FROM Table_planta")
     int CountPlants();
+
+    @Query("SELECT COUNT (*) FROM table_registration")
+    int CountRegistrations();
 
     @Query("SELECT * FROM Table_Registration")
     List<RegistrationPlant> GetAllRegistrations();

@@ -63,15 +63,9 @@ public class MainActivity extends AppCompatActivity {
 //                ExistingPeriodicWorkPolicy.KEEP,
 //                work
 //        );
-        WorkManager.getInstance(getApplicationContext()).cancelAllWork();
-        WorkManager.getInstance(getApplicationContext()).pruneWork();
 
-        OneTimeWorkRequest work = new OneTimeWorkRequest.Builder(MqttWorker.class).build();
-        WorkManager.getInstance(getApplicationContext()).enqueueUniqueWork(
-                "MONITORAMENTO",
-                ExistingWorkPolicy.KEEP,
-                work
-        );
+
+        Tasks.agendaMqtt(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
