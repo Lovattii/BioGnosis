@@ -2,6 +2,7 @@ package com.example.myplant;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import java.util.List;
@@ -19,6 +20,9 @@ public interface PlantDAO {
 
     @Insert
     void InsertAllListRegistration(List<RegistrationPlant> registros);
+
+    @Query("DELETE FROM Table_Planta WHERE idPlant = :id_plant")
+    void DeletePlantById (int id_plant);
 
     @Query("SELECT * FROM Table_Banco_Plants")
     List<BancoPlantsCadrastro> GetBancoOfPlants();
@@ -40,7 +44,10 @@ public interface PlantDAO {
     @Query("SELECT * FROM Table_Registration")
     List<RegistrationPlant> GetAllRegistrations();
 
-    @Query("SELECT * FROM Table_Planta LIMIT 1")
+    @Query("SELECT * FROM Table_Registration WHERE id_plant = :id_plant ORDER BY dataMedicao ASC")
+    List<RegistrationPlant> GetAllRegistrationsById(int id_plant);
+
+    @Query("SELECT * FROM Table_Planta ORDER BY dataCadrastro ASC LIMIT 1")
     Planta GetFirstPlant();
 
     @Query("SELECT * FROM Table_Registration WHERE id_plant = :id_plant ORDER BY dataMedicao DESC")

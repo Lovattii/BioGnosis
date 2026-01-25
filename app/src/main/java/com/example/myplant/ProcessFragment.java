@@ -3,8 +3,10 @@ package com.example.myplant;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -32,49 +36,86 @@ public class ProcessFragment extends Fragment implements HomeFragment.onPlantMai
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_process, container, false);
 
-        LineChart chart = view.findViewById(R.id.chartPlantProcess);
+        LineChart chartUmidade = view.findViewById(R.id.chartUmidade);
+        LineChart chartLuminosidade = view.findViewById(R.id.chartLuminosidade);
+        LineChart chartTemperatura = view.findViewById(R.id.chartTemperatura);
+
+        Callback returnUmidade = new Callback() {
+            @Override
+            public float returnDado(RegistrationPlant registro) {
+                if (registro.getUmidade() > 100)
+                    return registro.getUmidade();
+                return 0;
+            }
+        };
+
+        Callback returnLuminosidade = new Callback() {
+            @Override
+            public float returnDado(RegistrationPlant registro) {
+                if (registro.getLuminosidade() > 100)
+                    return registro.getLuminosidade();
+                return 0;
+            }
+        };
+
+        Callback returnTemperatura = new Callback() {
+            @Override
+            public float returnDado(RegistrationPlant registro) {
+                if (registro.getTemperatura() > 50)
+                    return registro.getTemperatura();
+                return 0;
+            }
+        };
 
         AppDatabase db = AppDatabase.getDatabase(getContext());
-        List<RegistrationPlant> registros = db.plantDAO().GetAllRegistrations();
+        List<RegistrationPlant> registros = db.plantDAO().GetAllRegistrationsById(0);
 
         if (registros != null)
-            initChart(chart, registros);
+        {
+            initChart(chartUmidade, registros, returnUmidade, "UMIDADE", R.color.azul_escuro, R.color.azul_macio);
+            initChart(chartLuminosidade, registros, returnLuminosidade, "LUMINOSIDADE", R.color.laranja_escuro, R.color.laranja_claro);
+            initChart(chartTemperatura, registros, returnTemperatura, "TEMPERATURA", R.color.red, R.color.vermelho_trans);
+        }
 
         return view;
     }
 
-    private void initChart(LineChart chart, List<RegistrationPlant> registros)
-    {
-        List<Entry> umidade = new ArrayList<>();
-        List<Entry> luminosidade = new ArrayList<>();
-        List<Entry> temperatura = new ArrayList<>();
-        int i = 0;
+    private interface Callback{
+        float returnDado(RegistrationPlant registro);
+    }
 
+    private void initChart(LineChart chart, List<RegistrationPlant> registros, Callback call, String titulo, int id_color_line, int id_color_ball)
+    {
+        List<Entry> listDados = new ArrayList<>();
+
+        int i = 0;
         for (RegistrationPlant medida : registros)
         {
-            umidade.add(new Entry(i, medida.getUmidade()));
-            luminosidade.add(new Entry(i, medida.getLuminosidade()));
-            temperatura.add(new Entry(i, medida.getTemperatura()));
+            if (call.returnDado(medida) != 0)
+            {
+                listDados.add(new Entry(i, call.returnDado(medida)));
+                i++;
+            }
         }
 
-        LineDataSet lineUmidade = new LineDataSet(umidade, "UMIDADE DO SOLO");
-        LineDataSet lineLuminosidade = new LineDataSet(luminosidade, "LUMINOSIDADE");
-        LineDataSet lineTemperatura = new LineDataSet(temperatura, "TEMPERATURA");
+        XAxis axisX = chart.getXAxis();
+        axisX.setPosition(XAxis.XAxisPosition.BOTTOM);
+        axisX.setGranularity(1f);
+        axisX.setLabelCount(5, false);
 
-        initLine(lineUmidade, R.color.azul_macio, R.color.azul_escuro, 2, 10);
-        initLine(lineLuminosidade, com.example.pincel.R.color.laranja_claro, R.color.laranja_escuro, 2, 10);
-        initLine(lineTemperatura, R.color.amarelo_claro, Color.YELLOW, 2, 10);
+        LineDataSet lineDado = new LineDataSet(listDados, titulo);
+        initLine(lineDado, id_color_line, id_color_ball, 2, 10);
 
-        LineData dataUmidade = new LineData(lineUmidade);
-        LineData dataLuminosidade = new LineData(lineLuminosidade);
-        LineData dataTemperatura = new LineData(lineTemperatura);
-
-        chart.setData(dataUmidade);
-        chart.setData(dataLuminosidade);
-        chart.setData(dataTemperatura);
+        LineData dataDado = new LineData(lineDado);
+        chart.setData(dataDado);
 
         Description descricao = new Description();
-        descricao.setText("HISTÓRICO DA PLANTA");
+        descricao.setText(titulo);
+
+        YAxis axisY = chart.getAxisLeft();
+        chart.getAxisRight().setEnabled(false);
+        axisY.setAxisMinimum(0f);
+        axisY.setSpaceBottom(0f);
 
         chart.setDescription(descricao);
         chart.animateX(1000);
@@ -83,19 +124,23 @@ public class ProcessFragment extends Fragment implements HomeFragment.onPlantMai
 
     private void initLine(LineDataSet line, int color_line, int color_ball, int espessura, int tam_txt)
     {
-        line.setColor(color_line);
-        line.setCircleColor(color_ball);
+        line.setColor(ContextCompat.getColor(getContext(), color_line));
+        line.setCircleColor(ContextCompat.getColor(getContext(), color_ball));
         line.setLineWidth(espessura);
-        line.getValueTextColor(tam_txt);
+        line.setValueTextColor(tam_txt);
         line.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         line.setDrawFilled(true);
-        line.setFillColor(Color.CYAN);
+        line.setFillColor(ContextCompat.getColor(getContext(), color_ball));
+        line.setDrawCircles(false);
+        line.setDrawValues(false);
+
     }
 
 
     @Override
     public void ThisIsTheMainPlant(Planta p)
     {
+        Log.d("PLANTA_MAIN", "Passou");
         TextView num_dias = view.findViewById(R.id.txt1);
         TextView num_dias_irrigadas = view.findViewById(R.id.txt2);
         TextView num_quase_morte = view.findViewById(R.id.txt3);

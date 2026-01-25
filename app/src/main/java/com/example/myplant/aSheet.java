@@ -59,8 +59,6 @@ public class aSheet extends BottomSheetDialogFragment {
         this.listenerBtnClicado = listenerBtnClicado;
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)

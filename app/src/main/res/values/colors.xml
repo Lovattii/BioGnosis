@@ -9,6 +9,7 @@
     <color name="red"> #F00 </color>
     <color name="azul_claro"> #00CCFF </color>
     <color name="azul_escuro"> #0000CC </color>
+    <color name="azul_trans"> #7B9EB3 </color>
     <color name="ciano"> #CCFFFF </color>
     <color name="laranja_claro"> #F6D39B </color>
     <color name="laranja_escuro"> #E68E00 </color>
@@ -24,4 +25,6 @@
     <color name="cinza_ult_escuro"> #393939 </color>
     <color name="cinza_medio"> #565656</color>
     <color name="verde_main"> #98C3A1 </color>
+    <color name="vermelho_trans"> #C46F5C </color>
+    <color name="verde_ult_forte"> #002200 </color>
 </resources>

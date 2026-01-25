@@ -6,4 +6,7 @@
     <string name="alert_sun_lower"> Atenção, a fotossíntese é mais produtiva na luz solar. Coloque sua planta em um região mais iluminada.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description"> Descrição </string>
+    <string name="dowload_date"> Baixar Dados da Planta </string>
+    <string name="descrition_tomate_cereja"> Sementes de tomate cereja são ótimas para hortas caseiras, produzindo frutos pequenos, saborosos e ricos em vitaminas, ideais para saladas e petiscos, podendo ser plantadas em vasos ou solo, com cuidados de rega e luz solar; existem variedades como a Samambaia e diferentes cores, e o plantio geralmente envolve semeadura em substrato úmido e cuidado com a germinação, que leva de 5 a 14 dias </string>
 </resources>

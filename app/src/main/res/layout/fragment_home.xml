@@ -36,7 +36,7 @@
 
     <ImageButton
         android:id="@+id/button_plus"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="50dp"
         android:background="@drawable/ic_plant"
         android:layout_marginLeft="30dp"
@@ -46,10 +46,11 @@
         />
 
     <ImageButton
-        android:id="@+id/button_menu"
-        android:layout_width="50dp"
+        android:id="@+id/ic_bin"
+        android:layout_width="40dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_menu"
+        android:background="@drawable/ic_bin"
+        android:backgroundTint="@color/white"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -91,10 +92,10 @@
         android:textSize="50sp"
         android:textAlignment="center"
         android:text="NOME"
+        android:layout_marginTop="50dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/plant_image"
-        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>

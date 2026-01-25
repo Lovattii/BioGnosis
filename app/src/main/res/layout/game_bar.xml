@@ -6,22 +6,37 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:backgroundTint="@android:color/transparent"
+android:clipToPadding="false"
+android:clipChildren="false"
 app:cardElevation="0dp"
 app:cardMaxElevation="0dp">
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/icone"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@null"
-        android:src="@drawable/ic_launcher_background"
+    <FrameLayout
+        android:id="@+id/containerIcone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/icone"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:src="@drawable/ic_launcher_background" />
+
+    </FrameLayout>
 
     <com.example.pincel.LinearProgressBar
         android:id="@+id/progressBar"
@@ -32,8 +47,7 @@ app:cardMaxElevation="0dp">
         app:pgl_progress="100"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icone"
-        android:layout_marginLeft="12dp"
+        app:layout_constraintStart_toEndOf="@id/containerIcone"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

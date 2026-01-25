@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MqttWorker extends Worker {
     private final Context contexto;
-    private static final String url = "ws://broker.hivemq.com:8000/mqtt";
+    private static final String url = "ws://broker.emqx.io:8083/mqtt";
     private static final String topico = "bioGnosis/sensores/dados";
 
     public MqttWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -70,10 +70,13 @@ public class MqttWorker extends Worker {
                     ListRegistration lista = json.fromJson(newMessage, ListRegistration.class);
                     List<RegistrationPlant> registros;
 
-                    if (lista.registros != null)
+                    if (lista.dados != null)
                     {
-                        registros = lista.registros;
+                        registros = lista.dados;
                         AppDatabase db = AppDatabase.getDatabase(contexto);
+                        RegistrationPlant registrationPlant = db.plantDAO().GetLastRegistration(0);
+
+                        Log.d("WORK_KA", "datas (ultimo_r)(ultimo_e) "+ registrationPlant.getDataMedicao() + "  "+ registros.getLast().getDataMedicao());
                         db.plantDAO().InsertAllListRegistration(registros);
 
                         Log.d("WORK_KA", "Quantidade: " + db.plantDAO().CountRegistrations());

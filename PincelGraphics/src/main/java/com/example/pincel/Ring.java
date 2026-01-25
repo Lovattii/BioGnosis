@@ -24,8 +24,8 @@ public class Ring extends View{
     private PaintPallet paintPallet = new PaintPallet();
     private float deg_initial = calcula_deg_initial();
 
-    private float progressWidth = 20f;
-    private float backgroundWidth = 20f;
+    private float progressWidth = 0f;
+    private float backgroundWidth = 0f;
     private boolean isAnimating = false;
     private Queue<Float> queue = new LinkedList<>();
     private ValueAnimator chainsaw;
@@ -42,8 +42,9 @@ public class Ring extends View{
 
     public void init(Context context, AttributeSet attrs)
     {
-
         float garb = 0f;
+        paintPallet.setStyleBackground(Paint.Style.STROKE);
+        paintPallet.setStyleProgress(Paint.Style.STROKE);
 
         if (attrs != null)
         {
@@ -60,7 +61,8 @@ public class Ring extends View{
         }
 
         this.deg_initial = calcula_deg_initial();
-
+        paintPallet.setStrokeWidthBackground(backgroundWidth);
+        paintPallet.setStrokeWidthProgress(progressWidth);
         this.rectF = new RectF();
 
         setProgressAnimation(0);
@@ -135,10 +137,24 @@ public class Ring extends View{
     }
 
     public void setColorsProgress(int...colorsProgress) {
-        paintPallet.setColorsInProgress(Paint.Style.STROKE, progressWidth, colorsProgress);
+        paintPallet.setColorsInProgress(colorsProgress);
     }
 
     public void setColorsBackground(int...colorsBackground) {
-        paintPallet.setColorsInBackground(Paint.Style.STROKE, backgroundWidth, colorsBackground);
+        paintPallet.setColorsInBackground(colorsBackground);
+    }
+
+    public int getColorBackground()
+    {
+        return paintPallet.getBackgroudPaint().getColor();
+    }
+
+    public int getColorProgress()
+    {
+        return paintPallet.getProgressPaint().getColor();
+    }
+
+    public float getProgress() {
+        return progress;
     }
 }

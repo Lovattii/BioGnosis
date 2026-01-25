@@ -18,8 +18,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 
 public class MqttResquisicaoWorker extends Worker {
-
-    private static final String url = "ws://broker.hivemq.com:8000/mqtt";
+    private static final String url = "ws://broker.emqx.io:8083/mqtt";
     private static final String topico = "bioGnosis/sensores/listen";
     private Context context;
 
@@ -33,10 +32,9 @@ public class MqttResquisicaoWorker extends Worker {
     public Result doWork()
     {
         Log.d("WORK_KA", "Iniciando requisição... ");
-
-
+        
         AppDatabase db = AppDatabase.getDatabase(context);
-        String payload = String.valueOf(db.plantDAO().CountPlants() + 1);
+        String payload = String.valueOf(db.plantDAO().CountRegistrations() + 1);
 
         boolean []sucess = {false};
         MqttClient mqtt = null;
@@ -45,7 +43,7 @@ public class MqttResquisicaoWorker extends Worker {
 
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(true);
-            options.setConnectionTimeout(15);
+            options.setConnectionTimeout(25);
 
             mqtt.connect(options);
             MqttMessage message = new MqttMessage(payload.getBytes());

@@ -4,6 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListRegistration {
-    public List<RegistrationPlant> registros;
+    public List<RegistrationPlant> dados;
 
 }

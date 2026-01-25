@@ -31,7 +31,8 @@ public class PaintPallet {
     private ArgbEvaluator evaluator = new ArgbEvaluator();
 
     public void PaintPallet()
-    {}
+    {
+    }
 
     public void setGradient(boolean gradient)
     {
@@ -74,6 +75,8 @@ public class PaintPallet {
     }
     public void updateColor(float porcentagem)
     {
+        backgroudPaint.setStrokeCap(Paint.Cap.ROUND);
+        progressPaint.setStrokeCap(Paint.Cap.ROUND);
         int progressColor = getNewColor(numCProg, ColorsProgress, porcentagem);
 
         progressPaint.setColor(progressColor);
@@ -84,7 +87,18 @@ public class PaintPallet {
         else
             backgroudPaint.setColor(ColorUtils.setAlphaComponent(progressColor, 120));
     }
-    public void setColorsInBackground(Paint.Style style, float strokeWidth,int...colors)
+
+    public void setStrokeWidthBackground(float width)
+    {
+        backgroudPaint.setStrokeWidth(width);
+    }
+
+    public void setStrokeWidthProgress(float width)
+    {
+        progressPaint.setStrokeWidth(width);
+    }
+
+    public void setColorsInBackground(int...colors)
     {
         ColorsBackground[0] = Color.parseColor("red");
         int i = 0;
@@ -98,14 +112,9 @@ public class PaintPallet {
         }
 
         numCBack = colors.length;
-
-        backgroudPaint.setStyle(style);
-        backgroudPaint.setStrokeWidth(strokeWidth);
-        backgroudPaint.setStrokeCap(Paint.Cap.ROUND);
-
     }
 
-    public void setColorsInProgress(Paint.Style style, float strokeWidth,int...colors)
+    public void setColorsInProgress(int...colors)
     {
         ColorsProgress[0] = Color.parseColor("red");
 
@@ -120,12 +129,17 @@ public class PaintPallet {
         }
 
         numCProg = colors.length;
-
-        progressPaint.setStyle(style);
-        progressPaint.setStrokeWidth(strokeWidth);
-        progressPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
+    public void setStyleProgress(Paint.Style style)
+    {
+        progressPaint.setStyle(style);
+    }
+
+    public void setStyleBackground(Paint.Style style)
+    {
+        backgroudPaint.setStyle(style);
+    }
     public Paint getBackgroudPaint() {
         return backgroudPaint;
     }

@@ -42,6 +42,8 @@ public class LinearProgressBar extends View{
     public void init(Context context, AttributeSet attrs)
     {
         this.paintPallet = new PaintPallet();
+        paintPallet.setStyleProgress(Paint.Style.FILL);
+        paintPallet.setStyleBackground(Paint.Style.FILL);
         this.dist = 20f;
         this.progressAlvo = 0f;
         this.progressNow = 0f;
@@ -160,11 +162,11 @@ public class LinearProgressBar extends View{
     }
 
     public void setColorsProgress(int...colorsProgress) {
-        paintPallet.setColorsInProgress(Paint.Style.FILL, 0, colorsProgress);
+        paintPallet.setColorsInProgress(colorsProgress);
     }
 
     public void setColorsBackground(int...colorsBackground) {
-        paintPallet.setColorsInBackground(Paint.Style.FILL, 0, colorsBackground);
+        paintPallet.setColorsInBackground(colorsBackground);
     }
 
     public void setBackIsNotAlpha(boolean Alpha)

@@ -10,13 +10,13 @@ public class RegistrationPlant {
     public int id_plant;
     public long dataMedicao;
     public float temperatura;
-    public float luminosidade;
-    public float umidade;
+    public int luminosidade;
+    public int umidade;
 
     @Ignore
     private BioGnosisLifeCalculator calculator;
 
-    public RegistrationPlant(int id_plant, float temperatura, float luminosidade, float umidade, long dataMedicao)
+    public RegistrationPlant(int id_plant, float temperatura, int luminosidade, int umidade, long dataMedicao)
     {
         this.id_plant = id_plant;
         this.temperatura = temperatura;
