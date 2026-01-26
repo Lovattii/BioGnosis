@@ -32,10 +32,10 @@ O aplicativo conta com uma aba inicial que exibe a planta cadastrada, apresentan
 
 #### Sistema
 
-Desenvolvido através do Arduino IDE, o circuito possui um sistema próprio que é capaz de interpretar informações obtidas por meio dos sensores de seus respectivos parâmetros. Em questão, é necessário entender os seguintes componentes: o sensor de umidade do solo mede a resistência da terra e retorna um valor em volts. O de luminosidade ...[], por fim, o de temperatura ...[]...
+Desenvolvido através do Arduino IDE, o circuito possui um sistema próprio que é capaz de interpretar informações obtidas por meio dos sensores de seus respectivos parâmetros. Em questão, é necessário entender os seguintes componentes: o sensor de umidade do solo mede a resistência da terra e retorna um valor em volts. O sensor de luminosidade, do tipo LDR, varia sua resistência de acordo com a incidência de luz, permitindo a leitura do nível de iluminação do ambiente. Por fim, o sensor de temperatura, do tipo DHT11, realiza a medição da temperatura ambiente e envia essas informações ao microcontrolador.
 
-Utilizando a biblioteca WifiManager, tratamos o ESP como um access point temporário, tornando-o visível na lista de redes próximas. Assim que feita a conexão, o usuário deve inserir os dados de sua rede de preferência, vinculando o sistema à internet.
-Os dados coletados pelos sensores são enviados via protocolo MQTT ao HiveMQ, um broker público que é cadastrado previamente no ESP.
+Utilizando a biblioteca WiFiManager, o ESP é configurado como um access point temporário, tornando-se visível na lista de redes disponíveis. Após a conexão, o usuário insere os dados de sua rede, permitindo o acesso do sistema à internet. Em seguida, os dados coletados pelos sensores são enviados via protocolo MQTT ao EMQX, um broker público previamente configurado no ESP.
+
 
 #### Cálculo de estabilidade da planta
 
