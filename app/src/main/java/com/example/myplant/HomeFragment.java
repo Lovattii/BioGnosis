@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,12 +38,6 @@ public class HomeFragment extends Fragment {
     private View view;
     private View nivelBar;
     private Planta plantMain;
-
-    public interface onPlantMain{
-        void ThisIsTheMainPlant(Planta p);
-    }
-    private onPlantMain listenerPlantCentral;
-
     private LinearProgressBar progressBar1;
     private LinearProgressBar progressBar2;
     private ImageView termometro;
@@ -52,6 +48,8 @@ public class HomeFragment extends Fragment {
     private AppDatabase db;
     private Ring ringLife;
 
+    private PlantaViewModel viewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,8 +58,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        nivelBar = view.findViewById(R.id.nivelBar);
-
+        viewModel = new ViewModelProvider(requireActivity()).get(PlantaViewModel.class);
 
         initColorAndButtons();
         initPlantMain();
@@ -113,22 +110,19 @@ public class HomeFragment extends Fragment {
 
     private void initPlantMain()
     {
-        Planta firstPlant = db.plantDAO().GetFirstPlant();
+        Planta firstPlant = viewModel.getPlant().getValue();
         setPlantInMain(firstPlant);
     }
 
     public void updateProgress(RegistrationPlant registro)
     {
-        ringLife.setProgressAnimation((float) registro.calculateLife(
-                25f, 4f, (int)registro.getTemperatura(),
-                3750, 250, (int)registro.getLuminosidade(),
-                2445, 820, (int)registro.getUmidade()
-        ));
+        Log.d("DATABASE_D", "quantidade de registros = "+ db.plantDAO().CountRegistrations());
+        ringLife.setProgressAnimation(registro.getVida());
 
-        progressBar1.setProgressAnimation((float)registro.calculateLuminosidade());
-        progressBar2.setProgressAnimation((float)registro.calculateUmidade());
+        progressBar1.setProgressAnimation((float)registro.calculateLuminosidade(db));
+        progressBar2.setProgressAnimation((float)registro.calculateUmidade(db));
         trickDrawable(termometro, R.drawable.ic_termometro, ringBar.getColorBackground());
-        ringBar.setProgressAnimation((float)registro.calculateTemperatura());
+        ringBar.setProgressAnimation((float)registro.calculateTemperatura(db));
 
         criaAlerta(progressBar1.getProgressNow(), solzinho);
         criaAlerta(progressBar2.getProgressNow(), gotinha);
@@ -148,12 +142,11 @@ public class HomeFragment extends Fragment {
     public void setPlantInMain(Planta p)
     {
         plantMain = p;
-
-        if (listenerPlantCentral != null)
-            listenerPlantCentral.ThisIsTheMainPlant(p);
+        viewModel.setPlant(p);
 
         RegistrationPlant last_registro = db.plantDAO().GetLastRegistration(0);
-
+        Log.d("DATABASE_D", "questões");
+        Log.d("DATABASE_D", String.valueOf(last_registro.getTemperatura()));
         updateProgress(last_registro);
 
         TextView plantDays = nivelBar.findViewById(R.id.plant_days);
@@ -167,6 +160,7 @@ public class HomeFragment extends Fragment {
 
     private void initColorAndButtons()
     {
+        nivelBar = view.findViewById(R.id.nivelBar);
         View barraSol = nivelBar.findViewById(R.id.barra_sol);
         View barraGota = nivelBar.findViewById(R.id.barra_gota);
 
@@ -223,14 +217,6 @@ public class HomeFragment extends Fragment {
         }
 
         return false;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context)
-    {
-        super.onAttach(context);
-        if (context instanceof onPlantMain)
-            listenerPlantCentral = (onPlantMain) context;
     }
 
     public static void makeAllNotClipChildrens(View v)

@@ -125,7 +125,7 @@ public class PlantSHEET extends BottomSheetDialogFragment {
                                         AppDatabase db = AppDatabase.getDatabase(getContext());
                                         int countPlants = db.plantDAO().CountPlants();
                                         List<Planta> list = new ArrayList<>();
-                                        list.add(new Planta(nomeParaCadrastro, plantaParaCadrastro.getSpecie(), plantaParaCadrastro.getIdResImage(), countPlants + 2));
+                                        list.add(new Planta(nomeParaCadrastro, countPlants + 2, new PlantaToCadrastro(plantaParaCadrastro)));
                                         db.plantDAO().InsertNewPlant(list.get(0));
                                         adapter.updateList(list);
                                     }

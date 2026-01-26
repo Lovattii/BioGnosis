@@ -1,9 +1,15 @@
 package com.example.myplant;
 
+import android.content.Context;
+import android.util.Log;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.Insert;
 import androidx.room.PrimaryKey;
-@Entity(tableName = "Table_Registration")
+@Entity(tableName = "Table_Registration",
+indices = {@Index(value = {"id_plant", "dataMedicao"})})
 public class RegistrationPlant {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -12,7 +18,7 @@ public class RegistrationPlant {
     public float temperatura;
     public int luminosidade;
     public int umidade;
-
+    public float vida;
     @Ignore
     private BioGnosisLifeCalculator calculator;
 
@@ -41,6 +47,24 @@ public class RegistrationPlant {
         return temperatura;
     }
 
+    private void initCalculator(AppDatabase db)
+    {
+        Planta p = db.plantDAO().GetPlantaById(id_plant);
+        calculator = new BioGnosisLifeCalculator(p.getIdealTemperatura(), 5, temperatura,
+                p.getIdealLuminosidade(), 250, luminosidade,
+                p.getIdealUmidade(), 250, umidade);
+    }
+    public void configLife(AppDatabase db)
+    {
+        initCalculator(db);
+        this.vida = calculator.getLife();
+    }
+
+    public float getVida() {
+
+        return vida;
+    }
+
     public int getId_plant() {
         return id_plant;
     }
@@ -49,28 +73,21 @@ public class RegistrationPlant {
         return dataMedicao;
     }
 
-    public double calculateLife(double idealTemperature, double toleranceTemperature, int weightTemperature,
-                                int idealLuminosity, int toleranceLuminosity, int weightLuminosity,
-                                int idealHumidity, int toleranceHumidity, int weightHumidity){
-        calculator = new BioGnosisLifeCalculator(idealTemperature, toleranceTemperature,
-                weightTemperature, idealLuminosity, toleranceLuminosity, weightLuminosity,
-                idealHumidity, toleranceHumidity, weightHumidity);
-
-        return calculator.calculateLife(temperatura, luminosidade, umidade);
-    }
-
-    public double calculateLuminosidade()
+    public double calculateLuminosidade(AppDatabase db)
     {
+        initCalculator(db);
         return calculator.getLumScore() * 100;
     }
 
-    public double calculateUmidade()
+    public double calculateUmidade(AppDatabase db)
     {
+        initCalculator(db);
         return calculator.getHumScore() * 100;
     }
 
-    public double calculateTemperatura()
+    public double calculateTemperatura(AppDatabase db)
     {
+        initCalculator(db);
         return calculator.getTempScore() * 100;
     }
 }

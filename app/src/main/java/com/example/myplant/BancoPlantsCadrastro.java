@@ -7,26 +7,37 @@ import androidx.room.PrimaryKey;
 @Entity (tableName = "Table_Banco_Plants")
 public class BancoPlantsCadrastro {
     @PrimaryKey(autoGenerate = true)
-    public int Idd;
+    public int id_d;
     public String specie;
     public int idResImage;
-    public BancoPlantsCadrastro(String specie, int idResImage)
+    public float idealTemperatura;
+    public int idealLuminosidade;
+    public int idealUmidade;
+    public BancoPlantsCadrastro(String specie, int idResImage, float idealTemperatura, int idealLuminosidade, int idealUmidade)
     {
         this.specie = specie;
         this.idResImage = idResImage;
+        this.idealLuminosidade = idealLuminosidade;
+        this.idealTemperatura = idealTemperatura;
+        this.idealUmidade = idealUmidade;
     }
 
     public String getSpecie() {
         return specie;
     }
-
-    public int getIdd() {
-        return Idd;
-    }
-
     public int getIdResImage() {
         return idResImage;
     }
 
+    public float getIdealTemperatura() {
+        return idealTemperatura;
+    }
 
+    public int getIdealLuminosidade() {
+        return idealLuminosidade;
+    }
+
+    public int getIdealUmidade() {
+        return idealUmidade;
+    }
 }

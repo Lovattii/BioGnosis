@@ -29,8 +29,8 @@ public interface PlantDAO {
 
     @Query("DELETE FROM Table_Planta WHERE nome = :name")
     void DeleteNewPlant(String name);
-    @Query("SELECT * FROM Table_Planta WHERE nome = :name ORDER BY dataCadrastro LIMIT 1")
-    Planta GetDadosPlanta(String name);
+    @Query("SELECT * FROM Table_Planta WHERE idPlant = :id_plant ORDER BY dataCadrastro LIMIT 1")
+    Planta GetPlantaById(int id_plant);
 
     @Query("SELECT * FROM Table_Planta")
     List<Planta> GetAllPlantas();
@@ -50,6 +50,9 @@ public interface PlantDAO {
     @Query("SELECT * FROM Table_Planta ORDER BY dataCadrastro ASC LIMIT 1")
     Planta GetFirstPlant();
 
+    @Query("SELECT * FROM Table_Banco_Plants WHERE specie = :specie LIMIT 1")
+    BancoPlantsCadrastro GetCadrastroBySpecie(String specie);
+
     @Query("SELECT * FROM Table_Registration WHERE id_plant = :id_plant ORDER BY dataMedicao DESC")
     List<RegistrationPlant> GetHistoryOfPlant(int id_plant);
 
@@ -58,4 +61,15 @@ public interface PlantDAO {
 
     @Query("SELECT * FROM table_registration WHERE id_plant = :id_plant ORDER BY dataMedicao DESC LIMIT 1")
     LiveData<RegistrationPlant> ListenerLastRegistration(int id_plant);
+
+    @Query("SELECT COUNT (*) FROM table_registration WHERE id_plant = :id_plant AND vida < 30")
+    int CountKillsPlantById(int id_plant);
+
+    @Query("SELECT COUNT (*) FROM table_registration AS atual " +
+    "WHERE atual.id_plant = :id_plant AND " +
+    "atual.umidade - (SELECT anterior.umidade FROM table_registration " +
+    "AS anterior WHERE anterior.id_plant = :id_plant AND anterior.dataMedicao < atual.dataMedicao " +
+    "ORDER BY anterior.dataMedicao DESC LIMIT 1) < -1000")
+    int CountVezesIrrigadas(int id_plant);
+
 }

@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,8 +27,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessFragment extends Fragment implements HomeFragment.onPlantMain{
+public class ProcessFragment extends Fragment{
     private View view;
+    private PlantaViewModel viewModel;
+    private AppDatabase db;
 
     public ProcessFragment() {
         // Required empty public constructor
@@ -35,6 +40,8 @@ public class ProcessFragment extends Fragment implements HomeFragment.onPlantMai
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_process, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(PlantaViewModel.class);
+        db = AppDatabase.getDatabase(getContext());
 
         LineChart chartUmidade = view.findViewById(R.id.chartUmidade);
         LineChart chartLuminosidade = view.findViewById(R.id.chartLuminosidade);
@@ -77,7 +84,31 @@ public class ProcessFragment extends Fragment implements HomeFragment.onPlantMai
             initChart(chartTemperatura, registros, returnTemperatura, "TEMPERATURA", R.color.red, R.color.vermelho_trans);
         }
 
+        initDados();
+
         return view;
+    }
+
+    private void initDados()
+    {
+        Planta p = viewModel.getPlant().getValue();
+
+        Log.d("PLANTA_MAIN", "Passou");
+        TextView num_dias = view.findViewById(R.id.txt1);
+        TextView num_dias_irrigadas = view.findViewById(R.id.txt2);
+        TextView num_quase_morte = view.findViewById(R.id.txt3);
+        TextView pontos_vida = view.findViewById(R.id.txt4);
+
+        TextView plant_name = view.findViewById(R.id.txtNameProcess);
+        ImageView planta_image = view.findViewById(R.id.imagePlantProcess);
+
+        plant_name.setText(p.getNome());
+        int count = db.plantDAO().CountVezesIrrigadas(0);
+        num_dias_irrigadas.setText(String.valueOf(count));
+        num_quase_morte.setText(String.valueOf(db.plantDAO().CountKillsPlantById(0)));
+        pontos_vida.setText(String.valueOf((int)db.plantDAO().GetLastRegistration(0).getVida()));
+        planta_image.setImageResource(p.getIdImagePlant());
+        num_dias.setText(String.valueOf(p.getPlantDays()));
     }
 
     private interface Callback{
@@ -134,23 +165,5 @@ public class ProcessFragment extends Fragment implements HomeFragment.onPlantMai
         line.setDrawCircles(false);
         line.setDrawValues(false);
 
-    }
-
-
-    @Override
-    public void ThisIsTheMainPlant(Planta p)
-    {
-        Log.d("PLANTA_MAIN", "Passou");
-        TextView num_dias = view.findViewById(R.id.txt1);
-        TextView num_dias_irrigadas = view.findViewById(R.id.txt2);
-        TextView num_quase_morte = view.findViewById(R.id.txt3);
-        TextView pontos_vida = view.findViewById(R.id.txt4);
-
-        TextView plant_name = view.findViewById(R.id.txtNameProcess);
-        ImageView planta_image = view.findViewById(R.id.imagePlantProcess);
-
-        plant_name.setText(p.getNome());
-        planta_image.setImageResource(p.getIdImagePlant());
-        num_dias.setText(String.valueOf(p.getPlantDays()));
     }
 }

@@ -65,15 +65,11 @@ public class MqttWorker extends Worker {
                     String newMessage = new String(message.getPayload());
                     Log.d("WORK_KA", "O QUE EU RECEBI :" + newMessage);
 
-                    Gson json = new Gson();
+                    AppDatabase db = AppDatabase.getDatabase(getApplicationContext());
+                    List<RegistrationPlant> registros = ListRegistration.insereJsonInList(newMessage, db);
 
-                    ListRegistration lista = json.fromJson(newMessage, ListRegistration.class);
-                    List<RegistrationPlant> registros;
-
-                    if (lista.dados != null)
+                    if (registros != null)
                     {
-                        registros = lista.dados;
-                        AppDatabase db = AppDatabase.getDatabase(contexto);
                         RegistrationPlant registrationPlant = db.plantDAO().GetLastRegistration(0);
 
                         Log.d("WORK_KA", "datas (ultimo_r)(ultimo_e) "+ registrationPlant.getDataMedicao() + "  "+ registros.getLast().getDataMedicao());

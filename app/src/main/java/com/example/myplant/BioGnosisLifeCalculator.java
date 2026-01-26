@@ -1,9 +1,9 @@
 package com.example.myplant;
 
 public class BioGnosisLifeCalculator {
-    private final double idealTemperature;
-    private final double toleranceTemperature;
-    private final int weightTemperature;
+    private final float idealTemperature;
+    private final float toleranceTemperature;
+    private final float weightTemperature;
     private final int idealLuminosity;
     private final int toleranceLuminosity;
     private final int weightLuminosity;
@@ -11,11 +11,13 @@ public class BioGnosisLifeCalculator {
     private final int toleranceHumidity;
     private final int weightHumidity;
 
-    private double tempScore;
-    private double lumScore;
-    private double humScore;
+    private float tempScore;
+    private float lumScore;
+    private float humScore;
 
-    public BioGnosisLifeCalculator(double idealTemperature, double toleranceTemperature, int weightTemperature,
+    private float life;
+
+    public BioGnosisLifeCalculator(float idealTemperature, float toleranceTemperature, float weightTemperature,
                        int idealLuminosity, int toleranceLuminosity, int weightLuminosity,
                        int idealHumidity, int toleranceHumidity, int weightHumidity) {
 
@@ -28,17 +30,19 @@ public class BioGnosisLifeCalculator {
         this.idealHumidity = idealHumidity;
         this.toleranceHumidity = toleranceHumidity;
         this.weightHumidity = weightHumidity;
+
+        this.life = calculateLife(weightTemperature, weightLuminosity, weightHumidity);
     }
 
-    public double getIdealTemperature() {
+    public float getIdealTemperature() {
         return idealTemperature;
     }
 
-    public double getToleranceTemperature() {
+    public float getToleranceTemperature() {
         return toleranceTemperature;
     }
 
-    public int getWeightTemperature() {
+    public float getWeightTemperature() {
         return weightTemperature;
     }
 
@@ -66,16 +70,20 @@ public class BioGnosisLifeCalculator {
         return weightHumidity;
     }
 
-    public double getHumScore() {
+    public float getHumScore() {
         return humScore;
     }
 
-    public double getLumScore() {
+    public float getLumScore() {
         return lumScore;
     }
 
-    public double getTempScore() {
+    public float getTempScore() {
         return tempScore;
+    }
+
+    public float getLife() {
+        return life;
     }
 
     /**
@@ -86,18 +94,18 @@ public class BioGnosisLifeCalculator {
      * @param tolerance Tolerância aceitável
      * @return Score normalizado entre 0 e 1
      */
-    private double calculateScore(double value, double ideal, double tolerance) {
+    private float calculateScore(float value, float ideal, float tolerance) {
 
-        double diff = Math.abs(value - ideal);
+        float diff = Math.abs(value - ideal);
 
         if (diff <= tolerance) {
-            return 1.0;
+            return 1.0f;
         }
 
-        return Math.exp(-(diff - tolerance) / tolerance);
+        return (float)Math.exp(-((double) diff - (double) tolerance) / (double)tolerance);
     }
 
-    public double calculateLife(double temperature, double luminosity, double humidity) {
+    public float calculateLife(float temperature, float luminosity, float humidity) {
 
         tempScore = calculateScore(temperature, getIdealTemperature(), getToleranceTemperature());
         lumScore = calculateScore(luminosity, getIdealLuminosity(), getToleranceLuminosity());

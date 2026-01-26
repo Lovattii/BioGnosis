@@ -1,27 +1,25 @@
 package com.example.myplant;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "Table_Planta")
 public class Planta {
     @PrimaryKey (autoGenerate = true)
-    public int id;
-
+    public int idD;
     public int idPlant;
     public String nome;
-    public String specie;
-    public int idImagePlant;
     public long dataCadrastro;
+    @Embedded
+    public PlantaToCadrastro cadrastro;
 
-    public Planta (String nome, String specie, int idImagePlant, int idPlant)
+    public Planta (String nome, int idPlant, PlantaToCadrastro cadrastro)
     {
         this.idPlant = idPlant;
         this.nome = nome;
-        this.idImagePlant = idImagePlant;
-        this.specie = specie;
-
         this.dataCadrastro = System.currentTimeMillis();
+        this.cadrastro = cadrastro;
     }
 
     public String getNome()
@@ -30,11 +28,11 @@ public class Planta {
     }
 
     public String getSpecie() {
-        return specie;
+        return cadrastro.getSpecie();
     }
 
     public int getIdImagePlant() {
-        return idImagePlant;
+        return cadrastro.getIdResImage();
     }
 
     public long getDataCadrastro() {
@@ -43,6 +41,20 @@ public class Planta {
 
     public int getIdPlant() {
         return idPlant;
+    }
+
+    public float getIdealTemperatura()
+    {
+        return cadrastro.getIdealTemperatura();
+    }
+    public int getIdealUmidade()
+    {
+        return cadrastro.getIdealUmidade();
+    }
+
+    public int getIdealLuminosidade()
+    {
+        return cadrastro.getIdealLuminosidade();
     }
 
     public int calculaDiasComMilli(long time)
