@@ -39,7 +39,10 @@ Os dados coletados pelos sensores são enviados via protocolo MQTT ao HiveMQ, um
 
 #### Cálculo de estabilidade da planta
 
+
+
 ![CalculoEstabilidade](https://github.com/Lovattii/BioGnosis/blob/main/images/calculo.png)
+
 
 ## Colaboradores
 
