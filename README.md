@@ -39,7 +39,7 @@ Utilizando a biblioteca WiFiManager, o ESP é configurado como um access point t
 
 #### Cálculo de estabilidade da planta
 
-
+A fim de tornar a interação do usuário com o plantio numa atividade intuitiva e agradável, estipula-se um cálculo montado com os dados obtidos dos sensores
 
 ![CalculoEstabilidade](https://github.com/Lovattii/BioGnosis/blob/main/images/calculo.png)
 
