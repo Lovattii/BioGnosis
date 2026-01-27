@@ -39,9 +39,24 @@ Utilizando a biblioteca WiFiManager, o ESP é configurado como um access point t
 
 #### Cálculo de estabilidade da planta
 
-A fim de tornar a interação do usuário com o plantio numa atividade intuitiva e agradável, estipula-se um cálculo montado com os dados obtidos dos sensores
+O BioGnosis utiliza um algoritmo de pontuação ponderada para calcular a estabilidade da planta, ou seja, o quão próximo o ambiente atual está das condições ideais de cultivo definidas para cada espécie.
 
+Cada planta cadastrada possui parâmetros ideais e tolerâncias para: temperatura, luminosidade e umidade do solo. Além dos valores ideais e tolerâncias, cada parâmetro recebe um peso que define sua importância relativa no cálculo final.
+
+O cálculo da estabilidade segue os seguintes passos:
+
+— Pontuação individual por parâmetro  
+— Para cada sensor (temperatura, luminosidade e umidade), é calculado um score normalizado entre 0 e 1:
+    
 ![CalculoEstabilidade](https://github.com/Lovattii/BioGnosis/blob/main/images/calculo.png)
+
+Isso garante que quanto mais distante do ideal, menor será a pontuação.
+ 
+Cada score é multiplicado pelo peso definido para o parâmetro. Em seguida, calcula-se a média ponderada:
+
+estabilidade=((scoretemp⋅pesotemp)+(scorelum⋅pesolum)+(scorehum⋅pesohum))/(pesotemp+pesolum+pesohum) (⋅100)
+
+O resultado final é um valor percentual entre 0% e 100%, representando a "vida" ou estabilidade da planta.
 
 
 ## Colaboradores
