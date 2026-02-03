@@ -1,15 +1,21 @@
 <h1 align="center">BioGnosis ☘️</h1>
 <p align="center">
   <img src="https://img.shields.io/github/last-commit/Lovattii/BioGnosis" />
-  <img src="https://img.shields.io/github/commit-activity/y/Lovattii/BioGnosis" />
   <img src="https://img.shields.io/badge/Made%20with-Java-ED8B00?logo=java&logoColor=white" />
   <img src="https://img.shields.io/badge/Made%20with-C%2B%2B-00599C?logo=c%2B%2B&logoColor=white" />
   <img src="https://img.shields.io/badge/Made%20with-Android%20Studio-3DDC84?logo=android-studio&logoColor=white" />
+   <img src="https://img.shields.io/badge/Made%20with-XML-00599C?logo=xml&logoColor=white" />
+  <img src="https://img.shields.io/badge/Made%20with-SQL-4479A1?logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Made%20with-Kotlin-7F52FF?logo=kotlin&logoColor=white" />
 
 </p> <br>
 <p align= "center">
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" width="50" />
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="50" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/xml/xml-original.svg" width="50"/>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" width="50"/>
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/kotlin/kotlin-original.svg" width="50"/>
+<img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/android-studio-icon.png" width="50"/>
 </p>
 
 
