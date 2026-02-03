@@ -1,5 +1,19 @@
-# BioGnosis
+<h1 align="center">BioGnosis ☘️</h1>
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/Lovattii/BioGnosis" />
+  <img src="https://img.shields.io/github/commit-activity/y/Lovattii/BioGnosis" />
+  <img src="https://img.shields.io/badge/Made%20with-Java-ED8B00?logo=java&logoColor=white" />
+  <img src="https://img.shields.io/badge/Made%20with-C%2B%2B-00599C?logo=c%2B%2B&logoColor=white" />
+  <img src="https://img.shields.io/badge/Made%20with-Android%20Studio-3DDC84?logo=android-studio&logoColor=white" />
 
+</p> <br>
+<p align= "center">
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" width="50" />
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="50" />
+</p>
+
+
+## Introdução ao Projeto
 Repositório voltado para o projeto BioGnosis desenvolvido durante a disciplina de Projeto Integrado de Computação, ofertada pelo professor Jadir.
 Articulado com o intuito de auxiliar no processo de cuidado e plantio, BioGnosis propõe a criação de um sistema integrado de sensores de temperatura, umidade e luminosidade
 que possam monitorar as condições ideais de uma planta segundo um banco de dados definido em tempo de execução. Para maiores distâncias, há um aplicativo conectado
@@ -30,6 +44,8 @@ O aplicativo conta com uma aba inicial que exibe a planta cadastrada, apresentan
 ## Funcionamento
 
 #### Aplicativo
+
+Desenvolvido através do Android Studio [..]
 
 #### Sistema
 
