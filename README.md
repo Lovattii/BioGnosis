@@ -48,7 +48,9 @@ O cálculo da estabilidade segue os seguintes passos:
 — Pontuação individual por parâmetro  
 — Para cada sensor (temperatura, luminosidade e umidade), é calculado um score normalizado entre 0 e 1:
     
-![CalculoEstabilidade](https://github.com/Lovattii/BioGnosis/blob/main/images/calculo.png)
+
+$e^{-\frac{| diff - tolerância |}{tolerância}}$
+
 
 Isso garante que quanto mais distante do ideal, menor será a pontuação.
  
