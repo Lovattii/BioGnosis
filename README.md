@@ -80,10 +80,11 @@ O resultado final é um valor percentual entre 0% e 100%, representando a "vida"
       </a>
     </td>
     <td align="center">
-      <img src="IMAGEM2" width="120"><br>
+        <br>
+      <img src="https://avatars.githubusercontent.com/u/219158917?v=4" width="120"><br>
       <strong>Bernardo Francisco</strong><br>
       Developer<br>
-      <a href="https://github.com/usuario2">
+      <a href="https://github.com/BartSOS">
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="20">
         GitHub
       </a>
