@@ -49,14 +49,17 @@ O cálculo da estabilidade segue os seguintes passos:
 — Para cada sensor (temperatura, luminosidade e umidade), é calculado um score normalizado entre 0 e 1:
     
 
-$e^{-\frac{| diff - tolerância |}{tolerância}}$
+$$\large e^{-\frac{|\text{diff} - \text{tolerância}|}{\text{tolerância}}}$$
 
+
+
+Considere diff = valor ideal - valor medido.
 
 Isso garante que quanto mais distante do ideal, menor será a pontuação.
  
 Cada score é multiplicado pelo peso definido para o parâmetro. Em seguida, calcula-se a média ponderada:
 
-estabilidade=((scoretemp⋅pesotemp)+(scorelum⋅pesolum)+(scorehum⋅pesohum))/(pesotemp+pesolum+pesohum) (⋅100)
+$$\text{estabilidade} = \frac{(\text{score}_{\text{temp}} \cdot \text{peso}_{\text{temp}}) + (\text{score}_{\text{lum}} \cdot \text{peso}_{\text{lum}}) + (\text{score}_{\text{hum}} \cdot \text{peso}_{\text{hum}})}{\text{peso}_{\text{temp}} + \text{peso}_{\text{lum}} + \text{peso}_{\text{hum}}} \cdot 100$$
 
 O resultado final é um valor percentual entre 0% e 100%, representando a "vida" ou estabilidade da planta.
 
