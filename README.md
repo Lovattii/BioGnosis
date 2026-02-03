@@ -45,7 +45,30 @@ O aplicativo conta com uma aba inicial que exibe a planta cadastrada, apresentan
 
 #### Aplicativo
 
-Desenvolvido através do Android Studio [..]
+Desenvolvido de forma inovadora pelo grupo por meio do Android Studio, o aplicativo BioGnosis é um projeto totalmente autoral, concebido e implementado do zero, com o objetivo de apresentar informações visuais relevantes a partir das medições realizadas pelos sensores do ESP de forma assíncrona. <br>
+
+
+##### Front-End
+
+A interface gráfica do aplicativo possui três abas de navegação, a HOME, o RELATÓRIO e as CONQUISTAS. <br>
+
+— A Home é responsável por conter as principais informações referentes a planta, tratando-se de: dias de vida da planta, luminosidade, temperatura, umidade e a "barra de vida". Cada um dos parâmetros variam entre um valor de 0 a 100 definido pelo cálculo de estabilidade da planta e são interpretados para o usuário por meio de cores e tamanhos diferentes de barra. Além disso, essa aba conta com dois botoões: o menu de plantas e a "lixeira", responsáveis por, respectivamente, adicionar novas plantas ou navegar através do banco de dados e apagar a planta atual. O menu de plantas abre uma janela temporária (bottom sheet), que permite inserir um novo objeto de acordo com seu nome e sua espécie de planta (pré-definida pelo aplicativo), ou trocar a planta da home por uma da escolha do usuário. <br>
+
+— O Relatório possui alguns dados principais da planta como: as variáveis padrões da planta em valores numéricos, número de dias, número de vezes irrigadas, número de "quase mortes" (quantidade de vezes em que a vida da planta chegou a menos de 30%), além de conter os gráficos que permitem um gerenciamento técnico de sua planta. <br>
+
+— A aba de conquistas trata-se de uma proposta de gamificar o aplicativo fornecendo interações lúdicas com o usuário através de troféus, por exemplo: a planta sobreviver por um ano e o usuário manteve a vida da planta acima de 70% durante 1000 medições. E, não obstante, informa ao usuário curiosidades interessantes sobre aquela espécie e seu método de plantio. <br>
+
+##### Back-End
+
+O aplicativo foi projetado principalmente na linguagem Java, contudo, existem outras linguagens presentes no sistema, como: Kotlin (para certas bibliotecas gráficas) e SQL (utilizado para criação e gerenciamento do banco de dados das plantas). A estrutura básica do UI (User Interface), é feita através da linguagem de marcação XML (Linguagem de Marcação Extensível).
+
+Bibliotecas mais usadas:
+
+Meowbottomnavigation - Cria uma barra de navegação pra interface gráfica utilizando o conceito da curva de Bezier (criando um estilo gráfico minimalista e agradável).
+MPAndroidChart - Utilizada pra criação de gráficos e interpretação de informações.
+FacebookShimmer - Cria uma animação de brilho utilizada como setup enquanto o sistema está carregando as informações.
+MQTTEclipse - Responsável pela conexão MQTT com o ESP32 C3 Super Mini.
+GoogleGson - Transforma uma string em um objeto json para manipulação de dados.
 
 #### Sistema
 
