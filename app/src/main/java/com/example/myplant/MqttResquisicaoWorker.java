@@ -34,7 +34,7 @@ public class MqttResquisicaoWorker extends Worker {
         Log.d("WORK_KA", "Iniciando requisição... ");
         
         AppDatabase db = AppDatabase.getDatabase(context);
-        String payload = String.valueOf(db.plantDAO().CountRegistrations() + 1);
+        String payload = String.valueOf(System.currentTimeMillis());
 
         boolean []sucess = {false};
         MqttClient mqtt = null;

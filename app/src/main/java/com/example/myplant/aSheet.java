@@ -50,13 +50,18 @@ public class aSheet extends BottomSheetDialogFragment {
     }
     private RecyclerView recycler;
 
-    public aSheet(int id_layout, int id_recyler, int num_col, int id_shimmer_effect, ListenerBtnClicado listenerBtnClicado)
+    private boolean cancelable;
+
+
+
+    public aSheet(int id_layout, int id_recyler, int num_col, int id_shimmer_effect, boolean cancelable, ListenerBtnClicado listenerBtnClicado)
     {
         this.id_layout = id_layout;
         this.id_recycler = id_recyler;
         this.num_col = num_col;
         this.id_shimmer = id_shimmer_effect;
         this.listenerBtnClicado = listenerBtnClicado;
+        this.cancelable = cancelable;
     }
 
     @Nullable
@@ -111,6 +116,8 @@ public class aSheet extends BottomSheetDialogFragment {
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
                 behavior.setSkipCollapsed(true);
+                if (cancelable)
+                    behavior.setDraggable(false);
 
                 bottomSheet.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             }

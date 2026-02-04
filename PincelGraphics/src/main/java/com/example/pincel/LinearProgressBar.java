@@ -25,13 +25,10 @@ public class LinearProgressBar extends View{
     private float cornerRadius;
     private RectF rectF;
     private RectF progressRect;
-    private ValueAnimator akira;
     private static int max = 100;
     private PaintPallet paintPallet;
     private float progressNow;
-    private float progressAlvo;
-    private Queue<Float> animationQueue = new LinkedList<>();
-    private boolean isAnimating = false;
+    private AkiraAnimation akira;
 
     public LinearProgressBar(Context context, AttributeSet attrs)
     {
@@ -41,11 +38,16 @@ public class LinearProgressBar extends View{
 
     public void init(Context context, AttributeSet attrs)
     {
-        this.paintPallet = new PaintPallet();
-        paintPallet.setStyleProgress(Paint.Style.FILL);
-        paintPallet.setStyleBackground(Paint.Style.FILL);
+        this.akira = new AkiraAnimation(1500, new AkiraAnimation.CallbackInvalidate() {
+            @Override
+            public void ativaInvalidate(float progresNow) {
+                progressNow = progresNow;
+                invalidate();
+            }
+        });
+
+        this.paintPallet = new PaintPallet(Paint.Style.FILL, Paint.Style.FILL);
         this.dist = 20f;
-        this.progressAlvo = 0f;
         this.progressNow = 0f;
         float progressGarbage = 0f;
 
@@ -66,9 +68,9 @@ public class LinearProgressBar extends View{
         this.rectF = new RectF();
         this.progressRect = new RectF();
 
-        setProgressAnimation(0);
-        setProgressAnimation(100);
-        setProgressAnimation(progressGarbage);
+        akira.setProgressAnimation(0);
+        akira.setProgressAnimation(100);
+        akira.setProgressAnimation(progressGarbage);
     }
 
     @Override
@@ -83,6 +85,7 @@ public class LinearProgressBar extends View{
         super.onDraw(canvas);
 
         paintPallet.updateColor(progressNow/max);
+
         int width = getWidth();
         int height = getHeight();
         float progressWidthMax = width - 2*dist;
@@ -102,54 +105,18 @@ public class LinearProgressBar extends View{
             canvas.drawRoundRect(progressRect, cornerRadius, cornerRadius, paintPallet.getProgressPaint());
     }
 
-    public void setProgressAnimation(float newProgress)
-    {
-        animationQueue.add(newProgress);
-        processQueque();
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (akira != null)
+            akira.destroy();
     }
 
-    private void processQueque()
+    public void setProgressAnimation(float progress)
     {
-        if (isAnimating || animationQueue.isEmpty())
-            return;
-
-        Float nextProgress = animationQueue.poll();
-        if (nextProgress == null) return;
-
-        onAnimation(nextProgress);
+        akira.setProgressAnimation(progress);
     }
 
-    private void onAnimation(float newProgress)
-    {
-        isAnimating = true;
-        newProgress = Math.max(0, Math.min(newProgress, max));
-
-        akira = ValueAnimator.ofFloat(progressNow, newProgress);
-        akira.setDuration(1500);
-
-        akira.setInterpolator(new DecelerateInterpolator());
-
-        akira.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                progressNow = (float)animation.getAnimatedValue();
-                invalidate();
-            }
-        });
-
-        akira.addListener(new AnimatorListenerAdapter()
-        {
-            @Override
-            public void onAnimationEnd(Animator animator)
-            {
-                isAnimating = false;
-                processQueque();
-            }
-        });
-
-        this.progressAlvo = newProgress;
-        akira.start();
-    }
     private int calculaDegrade(int color1, int color2, float pctInv)
     {
         float pct = 1f - pctInv;

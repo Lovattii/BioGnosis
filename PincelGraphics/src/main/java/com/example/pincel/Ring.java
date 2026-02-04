@@ -21,14 +21,13 @@ public class Ring extends View{
     private float progress = 0f;
     private static int max = 100;
     private float deg_total = 360f;
-    private PaintPallet paintPallet = new PaintPallet();
+    private PaintPallet paintPallet = new PaintPallet(Paint.Style.STROKE, Paint.Style.STROKE);
     private float deg_initial = calcula_deg_initial();
-
     private float progressWidth = 0f;
     private float backgroundWidth = 0f;
-    private boolean isAnimating = false;
-    private Queue<Float> queue = new LinkedList<>();
-    private ValueAnimator chainsaw;
+
+    private AkiraAnimation akira;
+
     private float calcula_deg_initial()
     {
         return 360f - deg_total + 90f - (360f - deg_total)/2f;
@@ -42,9 +41,15 @@ public class Ring extends View{
 
     public void init(Context context, AttributeSet attrs)
     {
+        akira = new AkiraAnimation(2000, new AkiraAnimation.CallbackInvalidate() {
+            @Override
+            public void ativaInvalidate(float progresNow) {
+                progress = progresNow;
+                invalidate();
+            }
+        });
+
         float garb = 0f;
-        paintPallet.setStyleBackground(Paint.Style.STROKE);
-        paintPallet.setStyleProgress(Paint.Style.STROKE);
 
         if (attrs != null)
         {
@@ -65,9 +70,9 @@ public class Ring extends View{
         paintPallet.setStrokeWidthProgress(progressWidth);
         this.rectF = new RectF();
 
-        setProgressAnimation(0);
-        setProgressAnimation(100);
-        setProgressAnimation(garb);
+        akira.setProgressAnimation(0);
+        akira.setProgressAnimation(100);
+        akira.setProgressAnimation(garb);
     }
 
     @Override
@@ -86,50 +91,19 @@ public class Ring extends View{
         canvas.drawArc(rectF, deg_initial, Deg, false, paintPallet.getProgressPaint());
     }
 
-    public void setProgressAnimation(float progress)
-    {
-        queue.add(progress);
-        queuecessa();
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (akira != null)
+            akira.destroy();
     }
 
-    private void queuecessa()
+    public void setProgressAnimation(float newProgress)
     {
-        if (isAnimating || queue.isEmpty()) return;
-
-        Float newProcess = queue.poll();
-
-        if (newProcess == null) return;
-
-        onAnimation(newProcess);
+        akira.setProgressAnimation(newProgress);
     }
 
-    private void onAnimation(float newProgress)
-    {
-        isAnimating = true;
-        newProgress = Math.max(0, Math.min(newProgress, max));
-
-        chainsaw = ValueAnimator.ofFloat(progress, newProgress);
-        chainsaw.setDuration(1500);
-
-        chainsaw.setInterpolator(new DecelerateInterpolator());
-
-        chainsaw.addUpdateListener(a -> {
-            progress = (float)a.getAnimatedValue();
-            invalidate();
-        });
-
-        chainsaw.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator a)
-            {
-                isAnimating = false;
-                queuecessa();
-            }
-        });
-
-        this.progress = newProgress;
-        chainsaw.start();
-    }
 
     public void setBackIsNotAlpha(boolean Alpha)
     {

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myplant.databinding.ActivityMainBinding;
+import com.example.pincel.Drawables;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.card.MaterialCardView;
@@ -30,7 +31,8 @@ public class PlantSHEET extends BottomSheetDialogFragment {
 
     private ProgressBar loading;
     private RecyclerView recycler;
-    private RobotPlant adapter = new RobotPlant(getContext());
+    private RobotPlant adapter;
+    private AppDatabase db;
 
 
     public interface ListenerOfPlantMain{
@@ -43,15 +45,18 @@ public class PlantSHEET extends BottomSheetDialogFragment {
     private Button myButton;
     private MaterialCardView myCard;
     private BancoPlantsCadrastro plantaParaCadrastro;
-    private String nomeParaCadrastro;
     private aSheet cadrastration;
-
     private long last_click = 0;
+    BottomSheetDialogFragment sheets;
 
+    private Planta plantaCadrastrada;
 
-    public PlantSHEET(ListenerOfPlantMain listenerPlant)
+    public PlantSHEET(PlantaViewModel viewModel, AppDatabase db, ListenerOfPlantMain listenerPlant)
     {
         this.listenerPlant = listenerPlant;
+        this.db = db;
+        this.adapter = new RobotPlant(getContext(), viewModel);
+        this.sheets = this;
     }
 
     @Override
@@ -80,87 +85,22 @@ public class PlantSHEET extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.recycler_plants, container, false);
-        BottomSheetDialogFragment sheets = this;
 
         adapter.setListener(new RobotPlant.PlantListener() {
             @Override
             public void onPlantSelected(Planta planta) {
                 Log.d("DEBUG_CLICK", "entrouPlant");
-                listenerPlant.plantForMain(sheets, planta);
+                listenerPlant.plantForMain(sheets, planta); //foi clicado em uma planta
             }
 
             @Override
-            public void onPlusSelected() {
+            public void onPlusSelected() { //foi clicado no botao de adicionar uma nova planta
                 String tag = "cadrastro";
                 boolean haveShow = getParentFragmentManager().findFragmentByTag(tag) == null;
-                long agora = System.currentTimeMillis();
 
-                if (agora - last_click > 1000 && haveShow)
+                if (Drawables.canClick(last_click) && haveShow)
                 {
-                    last_click = agora;
-                    plantaParaCadrastro = null;
-                    nomeParaCadrastro = null;
-
-                    AppDatabase db = AppDatabase.getDatabase(getContext());
-                    List<BancoPlantsCadrastro> plantsCadrastroList = db.plantDAO().GetBancoOfPlants();
-
-                    cadrastration = new aSheet(R.layout.recycler_cadrastation, R.id.recyclerCad, 1, R.id.shimmerCad, new aSheet.ListenerBtnClicado() {
-                        @Override
-                        public void ButtonClicable(View v) {
-                            myButton = v.findViewById(R.id.btnProsseguir);
-                            myCard = v.findViewById(R.id.cardBtnProsseguir);
-                            myButton.setOnClickListener(vi -> {
-                                NameCadrastationDialog dialog = new NameCadrastationDialog(view.getContext(), name ->{
-
-                                    if (name == null)
-                                        Log.d("DEBUG_CLICK", "NAME");
-
-                                    if (plantaParaCadrastro == null)
-                                        Log.d("DEBUG_CLICK", "PLANTA");
-
-                                    if (name != null && plantaParaCadrastro != null) {
-                                        Log.d("DEBUG_CLICK", "FINALMENTE CHEGOU ATÉ AQUI");
-                                        name = name.replaceAll("\\s", "");
-                                        nomeParaCadrastro = name;
-                                        AppDatabase db = AppDatabase.getDatabase(getContext());
-                                        int countPlants = db.plantDAO().CountPlants();
-                                        List<Planta> list = new ArrayList<>();
-                                        list.add(new Planta(nomeParaCadrastro, countPlants + 2, new PlantaToCadrastro(plantaParaCadrastro)));
-                                        db.plantDAO().InsertNewPlant(list.get(0));
-                                        adapter.updateList(list);
-                                    }
-
-                                    else
-                                    {
-                                        nomeParaCadrastro = null;
-                                        plantaParaCadrastro = null;
-                                    }
-
-                                    if (cadrastration != null)
-                                        cadrastration.dismiss();
-                                });
-                            });
-                        }
-                    });
-
-
-                    cadrastration.setAdapterSetter(new aSheet.setAdapterObject() {
-                        @Override
-                        public void setAdapter(BottomSheetDialogFragment sheet, RecyclerView recyclerView) {
-
-                            recyclerView.setAdapter(new AdapterCadrastation(plantsCadrastroList, recyclerView, new AdapterCadrastation.aListener() {
-                                @Override
-                                public void ThisIsThePlantSelected(BancoPlantsCadrastro planta) {
-                                    if (myCard.getVisibility() == View.INVISIBLE)
-                                        myCard.setVisibility(View.VISIBLE);
-                                    plantaParaCadrastro = planta;
-                                    Log.d("DEBUG_CLICK", "Botao apertado");
-                                }
-                            }));
-                        }
-                    });
-
-                    cadrastration.show(getParentFragmentManager(), tag);
+                    cadrastraPlanta(view, tag);
                 }
             }
         });
@@ -183,12 +123,67 @@ public class PlantSHEET extends BottomSheetDialogFragment {
     public void initDados()
     {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-
-
             loading.setVisibility(View.GONE);
             recycler.setVisibility(View.VISIBLE);
-
         }, 1500);
 
+    }
+
+    private void cadrastraPlanta(View view, String tag)
+    {
+        plantaParaCadrastro = null;
+
+        List<BancoPlantsCadrastro> plantsCadrastroList = db.plantDAO().GetBancoOfPlants();
+
+        cadrastration = new aSheet(R.layout.recycler_cadrastation, R.id.recyclerCad, 1, R.id.shimmerCad, false, new aSheet.ListenerBtnClicado() {
+            @Override
+            public void ButtonClicable(View v) {
+                myButton = v.findViewById(R.id.btnProsseguir);
+                myCard = v.findViewById(R.id.cardBtnProsseguir);
+                myButton.setOnClickListener(vi -> {
+                    NameCadrastationDialog dialog = new NameCadrastationDialog(view.getContext(), name ->{
+
+                        if (name != null && plantaParaCadrastro != null) {
+                            name = name.replaceAll("\\s", "");
+
+                            int countPlants = db.plantDAO().CountPlants();
+
+                            List<Planta> list = new ArrayList<>();
+                            list.add(new Planta(name, countPlants, new PlantaToCadrastro(plantaParaCadrastro)));
+                            db.plantDAO().InsertNewPlant(list.get(0));
+                            adapter.updateList(list);
+
+                            RegistrationPlant r1 = new RegistrationPlant(list.get(0).getIdPlant(), 300f, 3500, 3200, System.currentTimeMillis());
+                            r1.configLife(db);
+                            db.plantDAO().InsertRegistration(r1);
+                            listenerPlant.plantForMain(sheets, list.get(0)); //foi clicado em uma planta
+                        }
+
+                        if (cadrastration != null)
+                            cadrastration.dismiss();
+                    });
+                });
+            }
+        });
+
+
+        cadrastration.setAdapterSetter(new aSheet.setAdapterObject() {
+            @Override
+            public void setAdapter(BottomSheetDialogFragment sheet, RecyclerView recyclerView) {
+
+                recyclerView.setAdapter(new AdapterCadrastation(plantsCadrastroList, recyclerView, new AdapterCadrastation.aListener() {
+                    @Override
+                    public void ThisIsThePlantSelected(BancoPlantsCadrastro planta) { //devolve qual planta para cadrastro foi clicado
+                        if (myCard.getVisibility() == View.INVISIBLE)
+                            myCard.setVisibility(View.VISIBLE);
+
+                        plantaParaCadrastro = planta;
+                        Log.d("DEBUG_CLICK", "Botao apertado");
+                    }
+                }));
+            }
+        });
+
+        cadrastration.show(getParentFragmentManager(), tag);
     }
 }

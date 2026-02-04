@@ -66,3 +66,6 @@ dependencies {
     implementation("androidx.room:room-runtime:${room_version}")
     annotationProcessor("androidx.room:room-compiler:$room_version")
 }
+
+
+// hacked by caetano

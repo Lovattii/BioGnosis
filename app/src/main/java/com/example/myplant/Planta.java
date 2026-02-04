@@ -57,6 +57,11 @@ public class Planta {
         return cadrastro.getIdealLuminosidade();
     }
 
+    public int getIdDescriptionPlant()
+    {
+        return cadrastro.idResDescription;
+    }
+
     public int calculaDiasComMilli(long time)
     {
         return (int)(time / (24 * 60 * 60 * 1000));

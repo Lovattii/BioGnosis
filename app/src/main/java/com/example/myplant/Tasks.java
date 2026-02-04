@@ -17,7 +17,7 @@ public class Tasks {
                 .build();
 
         OneTimeWorkRequest getDadosMqtt = new OneTimeWorkRequest.Builder(MqttWorker.class)
-                .setInitialDelay(40, TimeUnit.SECONDS)
+                .setInitialDelay(30, TimeUnit.SECONDS)
                 .build();
 
         WorkManager.getInstance(context).beginUniqueWork(

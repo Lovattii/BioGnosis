@@ -50,6 +50,7 @@ public class RegistrationPlant {
     private void initCalculator(AppDatabase db)
     {
         Planta p = db.plantDAO().GetPlantaById(id_plant);
+
         calculator = new BioGnosisLifeCalculator(p.getIdealTemperatura(), 5, temperatura,
                 p.getIdealLuminosidade(), 250, luminosidade,
                 p.getIdealUmidade(), 250, umidade);
@@ -58,6 +59,7 @@ public class RegistrationPlant {
     {
         initCalculator(db);
         this.vida = calculator.getLife();
+        Log.d("DATABASE_D", "kAMI");
     }
 
     public float getVida() {

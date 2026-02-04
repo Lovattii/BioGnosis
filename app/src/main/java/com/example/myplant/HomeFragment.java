@@ -1,5 +1,7 @@
 package com.example.myplant;
 
+import static androidx.core.content.ContextCompat.getColor;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -23,11 +25,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.pincel.Drawables;
+import com.example.pincel.GroupColors;
+import com.example.pincel.ImageAnimation;
 import com.example.pincel.LinearProgressBar;
 import com.example.pincel.Ring;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -40,49 +44,50 @@ public class HomeFragment extends Fragment {
     private Planta plantMain;
     private LinearProgressBar progressBar1;
     private LinearProgressBar progressBar2;
+    private Ring ringBar;
+    private Ring ringLife;
+
+    private ImageAnimation temperatura;
     private ImageView termometro;
     private ImageView solzinho;
     private ImageView gotinha;
-    private Ring ringBar;
 
     private AppDatabase db;
-    private Ring ringLife;
-
     private PlantaViewModel viewModel;
+    private Context context;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        db = AppDatabase.getDatabase(getContext());
+        view = inflater.inflate(R.layout.fragment_home, container, false); // view do fragmento
+        context = requireContext();
 
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        viewModel = new ViewModelProvider(requireActivity()).get(PlantaViewModel.class);
+        db = AppDatabase.getDatabase(context);
+        viewModel = new ViewModelProvider(requireActivity()).get(PlantaViewModel.class); //nuvem que compartilha a planta com outros fragmentos
 
         initColorAndButtons();
         initPlantMain();
 
         ImageButton button_plant = view.findViewById(R.id.button_plus);
-        Log.d("DEBUG_CLICK", "humm");
-
         button_plant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String tag = "MochilaOfPlants";
                 boolean haveShow = getParentFragmentManager().findFragmentByTag(tag) == null;
 
-                if (haveShow && canClick(last_click_plantSHEET))
+                if (haveShow && Drawables.canClick(last_click_plantSHEET))
                 {
-                    PlantSHEET sheet = new PlantSHEET(new PlantSHEET.ListenerOfPlantMain() {
+                    PlantSHEET sheet = new PlantSHEET(viewModel, db, new PlantSHEET.ListenerOfPlantMain() {
                         @Override
                         public void plantForMain(BottomSheetDialogFragment sheets, Planta p) {
+                            Log.d("DATABASE_D", "Chegou a planta");
                             setPlantInMain(p);
                             sheets.dismiss();
                         }
                     });
 
-                    Log.d("DEBUG_CLICK", "OXI");
                     sheet.show(getParentFragmentManager(), tag);
                 }
             }
@@ -97,7 +102,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        db.plantDAO().ListenerLastRegistration(0).observe(getViewLifecycleOwner(), new Observer<RegistrationPlant>() {
+        db.plantDAO().ListenerLastRegistration(plantMain.getIdPlant()).observe(getViewLifecycleOwner(), new Observer<RegistrationPlant>() {
             @Override
             public void onChanged(RegistrationPlant registrationPlant) {
                 Log.d("WORK_KA", "Houve mudanca");
@@ -121,12 +126,13 @@ public class HomeFragment extends Fragment {
 
         progressBar1.setProgressAnimation((float)registro.calculateLuminosidade(db));
         progressBar2.setProgressAnimation((float)registro.calculateUmidade(db));
-        trickDrawable(termometro, R.drawable.ic_termometro, ringBar.getColorBackground());
+
+        temperatura.setProgressAnimation((float)registro.calculateTemperatura(db));
         ringBar.setProgressAnimation((float)registro.calculateTemperatura(db));
 
         criaAlerta(progressBar1.getProgressNow(), solzinho);
         criaAlerta(progressBar2.getProgressNow(), gotinha);
-        criaAlerta(ringBar.getProgress(), (View) termometro.getParent());
+        //criaAlerta(ringBar.getProgress(), (View) termometro.getParent());
 
     }
 
@@ -134,7 +140,7 @@ public class HomeFragment extends Fragment {
     {
         if (progress <= 30)
         {
-            Animation pop = AnimationUtils.loadAnimation(getContext(), R.anim.grow_up_object);
+            Animation pop = AnimationUtils.loadAnimation(context, R.anim.grow_up_object);
             imagem.startAnimation(pop);
         }
     }
@@ -144,7 +150,9 @@ public class HomeFragment extends Fragment {
         plantMain = p;
         viewModel.setPlant(p);
 
-        RegistrationPlant last_registro = db.plantDAO().GetLastRegistration(0);
+        Log.d("DATABASE_D", "id da planta = " + p.getIdPlant());
+
+        RegistrationPlant last_registro = db.plantDAO().GetLastRegistration(p.getIdPlant());
         Log.d("DATABASE_D", "questões");
         Log.d("DATABASE_D", String.valueOf(last_registro.getTemperatura()));
         updateProgress(last_registro);
@@ -160,64 +168,54 @@ public class HomeFragment extends Fragment {
 
     private void initColorAndButtons()
     {
+        initProgressBar();
+        initImagesAndViews();
+    }
+
+    private void initImagesAndViews()
+    {
+        View barraSol = nivelBar.findViewById(R.id.barra_sol);
+        View barraGota = nivelBar.findViewById(R.id.barra_gota);
+
+        solzinho = barraSol.findViewById(R.id.icone);
+        Drawables.trickDrawable(solzinho, R.drawable.ic_sun, getColor(context, R.color.laranja_escuro), context);
+
+        termometro = nivelBar.findViewById(R.id.termometro);
+        temperatura = new ImageAnimation(termometro, R.drawable.ic_termometro, context, GroupColors.getColorsTemperatura(context));
+
+        gotinha = barraGota.findViewById(R.id.icone);
+        gotinha.setImageResource(R.drawable.gota);
+    }
+
+    private void initProgressBar()
+    {
         nivelBar = view.findViewById(R.id.nivelBar);
         View barraSol = nivelBar.findViewById(R.id.barra_sol);
         View barraGota = nivelBar.findViewById(R.id.barra_gota);
 
-        ringLife = view.findViewById(R.id.ringProgress);
-        ringBar = view.findViewById(R.id.ring_temperature);
+        //barra de sol
         progressBar1 = barraSol.findViewById(R.id.progressBar);
-        progressBar2 = barraGota.findViewById(R.id.progressBar);
-
         progressBar1.setBackIsNotAlpha(true);
-        progressBar1.setColorsBackground(ContextCompat.getColor(getContext(), R.color.amarelo_claro));
-        progressBar1.setColorsProgress(ContextCompat.getColor(getContext(), R.color.laranja_claro), ContextCompat.getColor(getContext(), R.color.red));
+        progressBar1.setColorsBackground(GroupColors.getColorsBackLuminosidade(context));
+        progressBar1.setColorsProgress(GroupColors.getColorsProgressLuminosidade(context));
 
-        solzinho = barraSol.findViewById(R.id.icone);
-        trickDrawable(solzinho, R.drawable.ic_sun, ContextCompat.getColor(getContext(), R.color.laranja_escuro));
-
-        termometro = nivelBar.findViewById(R.id.termometro);
-
-        gotinha = barraGota.findViewById(R.id.icone);
-        gotinha.setImageResource(R.drawable.gota);
-
-
+        //barra de umidade
+        progressBar2 = barraGota.findViewById(R.id.progressBar);
         progressBar2.setBackIsNotAlpha(true);
-        progressBar2.setColorsBackground(ContextCompat.getColor(getContext(), R.color.ciano));
-        progressBar2.setColorsProgress(ContextCompat.getColor(getContext(), R.color.azul_claro), ContextCompat.getColor(getContext(), R.color.azul_escuro));
+        progressBar2.setColorsBackground(GroupColors.getColorsBackUmidade(context));
+        progressBar2.setColorsProgress(GroupColors.getColorsProgressUmidade(context));
 
+        //ring de temperatura
+        ringBar = view.findViewById(R.id.ring_temperature);
         ringBar.setBackIsNotAlpha(true);
-        ringBar.setColorsBackground(ContextCompat.getColor(getContext(), R.color.amarelo_claro), ContextCompat.getColor(getContext(), com.example.pincel.R.color.laranja_escuro) , ContextCompat.getColor(getContext(), R.color.red));
+        ringBar.setColorsBackground(GroupColors.getColorsTemperatura(context));
         ringBar.setColorsProgress(android.R.color.transparent);
 
-        ringLife.setColorsProgress(
-            ContextCompat.getColor(getContext(),R.color.red),
-            ContextCompat.getColor(getContext(),R.color.laranja_escuro),
-            ContextCompat.getColor(getContext(),R.color.verde_escuro),
-            ContextCompat.getColor(getContext(),R.color.verde_urbano),
-            ContextCompat.getColor(getContext(),R.color.verde_esc_dif));
+        ringLife = view.findViewById(R.id.ringProgress);
+        ringLife.setColorsProgress(GroupColors.getColorsRing(context));
     }
 
-    private void trickDrawable(ImageView imagem, int id_drawable, int color)
-    {
-        Drawable drawable = ContextCompat.getDrawable(getContext(), id_drawable);
-        if (drawable != null)
-            drawable.setTint(color);
-        imagem.setImageDrawable(drawable);
-    }
 
-    public boolean canClick(long last_click)
-    {
-        long agora = System.currentTimeMillis();
-
-        if (agora - last_click > 1000)
-        {
-            last_click = agora;
-            return true;
-        }
-
-        return false;
-    }
 
     public static void makeAllNotClipChildrens(View v)
     {

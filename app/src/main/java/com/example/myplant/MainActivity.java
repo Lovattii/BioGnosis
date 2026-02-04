@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppDatabase db;
 
+
     private int ultimo_id = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,41 +56,32 @@ public class MainActivity extends AppCompatActivity {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
 
         super.onCreate(savedInstanceState);
-
-//        PeriodicWorkRequest work = new PeriodicWorkRequest.Builder(MqttWorker.class, 16, TimeUnit.MINUTES).build();
-//
-//        WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
-//                "MonitoramentoPlanta",
-//                ExistingPeriodicWorkPolicy.KEEP,
-//                work
-//        );
-
-
-        Tasks.agendaMqtt(this);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Toast.makeText(this, "Nova planta detectada!", Toast.LENGTH_SHORT).show();
 
+        Toast.makeText(this, "Nova planta detectada!", Toast.LENGTH_SHORT).show();
         binding.bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_process));
         binding.bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_home));
         binding.bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_account));
 
         binding.bottomNavigation.show(2, true);
-        trocar_framentos(new HomeFragment(), 0, 0);
-
         binding.bottomNavigation.setOnShowListener(item -> {
             int id_novo = item.getId();
             Fragment fragment_selecionado = null;
 
             switch (id_novo)
-            {                case 1:
+            {
+                case 1:
                     fragment_selecionado = new ProcessFragment();
                     break;
 
                 case 2:
                     fragment_selecionado = new HomeFragment();
+                    break;
+
+                case 3:
+                    fragment_selecionado = new BonusFragment();
                     break;
 
                 default:
@@ -106,8 +98,38 @@ public class MainActivity extends AppCompatActivity {
                 ultimo_id = id_novo;
             }
 
+            Tasks.agendaMqtt(this);
+
             return null;
         });
+
+        if(db.plantDAO().CountPlants() == 0)
+        {
+            Log.d("DATABASE_D", "ACHEI");
+            AppDatabase.cadrastraPrimeiraPlanta(db, this, getSupportFragmentManager(), new AppDatabase.CallbackMain() {
+                @Override
+                public void initMain() {
+                    inicializaMain();
+                }
+            });
+
+            return;
+        }
+
+        else
+            inicializaMain();
+    }
+
+    public void inicializaMain()
+    {
+        trocar_framentos(new HomeFragment(), 0, 0);
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
     }
 
     private void trocar_framentos(Fragment fragment, int anim_entrada, int anim_saida)

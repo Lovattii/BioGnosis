@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pincel.LinearProgressBar;
@@ -26,6 +27,8 @@ public class RobotPlant extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
     public PlantListener listener;
 
+    private PlantaViewModel viewModel;
+
     public void setListener(PlantListener listener)
     {
         this.listener = listener;
@@ -33,10 +36,16 @@ public class RobotPlant extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<Planta> listPlants;
 
-    public RobotPlant(Context context)
+    public RobotPlant(Context context, PlantaViewModel viewModel)
     {
         AppDatabase db = AppDatabase.getDatabase(context);
         this.listPlants = db.plantDAO().GetAllPlantas();
+
+        int id_plant = viewModel.getPlant().getValue().getIdPlant();
+
+        listPlants.remove(db.plantDAO().ReturnPosByIdPlanta(id_plant));
+
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -73,7 +82,7 @@ public class RobotPlant extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     {
         if (getItemViewType(position) == PLANT)
         {
-            Planta plantNow = listPlants.get(position);
+            Planta plantNow = listPlants.get(position - 1);
 
             RobotViewHolder robot = (RobotViewHolder)(holder);
             robot.nome.setText(plantNow.getNome());
@@ -96,7 +105,7 @@ public class RobotPlant extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemCount()
     {
-        return listPlants.size();
+        return listPlants.size() + 1;
     }
 
     public static class RobotViewHolder extends RecyclerView.ViewHolder
@@ -105,6 +114,7 @@ public class RobotPlant extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         LinearProgressBar lifeProgress;
         ImageView imagem;
         TextView idade;
+
 
         public RobotViewHolder(@NonNull View view, List<Planta> plantas, PlantListener listener)
         {
@@ -125,8 +135,8 @@ public class RobotPlant extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
             view.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
-                if (plantas.get(position) != null && listener != null)
-                    listener.onPlantSelected(plantas.get(position));
+                if (plantas.get(position - 1) != null && listener != null)
+                    listener.onPlantSelected(plantas.get(position - 1));
             });
         }
     }

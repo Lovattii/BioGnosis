@@ -26,12 +26,19 @@ public class PaintPallet {
     private int numCProg = 0;
     private Paint backgroudPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+
     private boolean gradient = true;
     private boolean backIsNotAlpha = false;
     private ArgbEvaluator evaluator = new ArgbEvaluator();
 
-    public void PaintPallet()
+    public PaintPallet(Paint.Style styleProgress, Paint.Style styleBackground)
     {
+        if (styleProgress != null)
+            setStyleProgress(styleProgress);
+
+        if (styleBackground != null)
+            setStyleBackground(styleBackground);
     }
 
     public void setGradient(boolean gradient)

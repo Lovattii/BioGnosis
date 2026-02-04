@@ -3,9 +3,12 @@ package com.example.myplant;
 public class PlantaToCadrastro {
     public String specie;
     public int idResImage;
+
+    public int idResDescription;
     public float idealTemperatura;
     public int idealLuminosidade;
     public int idealUmidade;
+
 
     public PlantaToCadrastro(BancoPlantsCadrastro cadrastro)//nao pode erar
     {
@@ -14,6 +17,7 @@ public class PlantaToCadrastro {
         this.idealTemperatura = cadrastro.idealTemperatura;
         this.idealUmidade = cadrastro.idealUmidade;
         this.idResImage = cadrastro.idResImage;
+        this.idResDescription = cadrastro.idResDescription;
     }
 
     public PlantaToCadrastro()//nao pode erar
@@ -37,5 +41,9 @@ public class PlantaToCadrastro {
 
     public int getIdResImage() {
         return idResImage;
+    }
+
+    public int getIdResDescription() {
+        return idResDescription;
     }
 }
