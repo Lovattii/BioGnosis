@@ -55,22 +55,49 @@ A experiência do usuário é centrada na "saúde" da planta, representada por b
 
 ### 1.  Front-End & UX (Gamificação)
 O aplicativo é dividido em três módulos principais de navegação, acessíveis via *MeowBottomNavigation*:
+<br>
+<br>
+<p align="center">
+<strong>Home (Dashboard):</strong>
+</p>
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/HOME.jpeg" width="300"><br>  
+</p>
 
-* **Home (Dashboard):**
-    * **Progressão Temporal (Dias vs. LvL's):** O aplicativo inova ao substituir o tradicional "Nível" (LvL) de jogos pela contagem de **"Dias de Vida"**. O progresso do usuário é medido pela longevidade da planta, transformando o tempo de dedicação no principal indicador de sucesso.      
-    * **Feedback Visual:** As barras variam de 0 a 100 com base no cálculo de estabilidade (setpoint ideal) de cada espécie, alterando cores e tamanhos para indicar urgência.
-    * **Gestão de Plantas:** Menu *Bottom Sheet* para cadastro rápido. 
-      * **Inventário Dinâmico:** Um menu deslizante que oferece acesso rápido a **todas as plantas cadastradas**. O usuário pode visualizar sua coleção completa e alternar qual planta está sendo monitorada na Home instantaneamente.
-      * **Cadastro e Expansão:** Permite adicionar novas plantas ao sistema, selecionando nome e **espécie pré-definida** (incluindo Alface, Tomate, Couve-flor e Cebolinha), que já carregam os parâmetros ideais de cultivo.
-        <br>
+<br>
+
+  * **Progressão Temporal (Dias vs. LvL's):** O aplicativo inova ao substituir o tradicional "Nível" (LvL) de jogos pela contagem de **"Dias de Vida"**. O progresso do usuário é medido pela longevidade da planta, transformando o tempo de dedicação no principal indicador de sucesso.      
+* **Feedback Visual:** As barras variam de 0 a 100 com base no cálculo de estabilidade (setpoint ideal) de cada espécie, alterando cores e tamanhos para indicar urgência.
+
+<br>
+<br>
+<p align="center">
+<strong>Gestão de Plantas: Menu Bottom Sheet para cadastro rápido.</strong>
+</p>
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/GERENCIAMENTOPLANTAS.jpeg" width="400"><br>  
+</p>
+    
+  * **Inventário Dinâmico:** Um menu deslizante que oferece acesso rápido a **todas as plantas cadastradas**. O usuário pode visualizar sua coleção completa e alternar qual planta está sendo monitorada na Home instantaneamente.
+  * **Cadastro e Expansão:** Permite adicionar novas plantas ao sistema, selecionando nome e **espécie pré-definida** (incluindo Alface, Tomate, Couve-flor e Cebolinha), que já carregam os parâmetros ideais de cultivo.
+
+<br>
 
 * **Relatório (Analytics):**
     * **Dados Brutos:** Visualização numérica das variáveis para usuários avançados.
     * **Histórico de Sobrevivência:** Contadores de "Dias de Vida", "Nº de Irrigações" e "Quase Mortes" (vida < 30%).
     * **Gráficos:** Renderização visual do histórico de dados via *MPAndroidChart*.
 
-* **Conquistas (Engajamento):**
-    * Sistema de troféus baseado em marcos (ex: "Sobreviver 1 ano", "Manter vida > 70% por 1000 medições").
+<br>
+<p align="center">
+<strong>Conquistas</strong>
+</p>
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/CONQUISTAS.jpeg" width="300"><br>  
+</p>
+<br>
+
+  * Sistema de troféus baseado em marcos (ex: "Sobreviver 1 ano", "Manter vida > 70% por 1000 medições").
     * Curiosidades educativas sobre a espécie cultivada e métodos de plantio.
 
 ### 2.  Back-End & Arquitetura
