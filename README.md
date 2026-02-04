@@ -19,11 +19,10 @@
 </p>
 
 
-## Introdução ao Projeto
-Repositório voltado para o projeto BioGnosis desenvolvido durante a disciplina de Projeto Integrado de Computação, ofertada pelo professor Jadir.
-Articulado com o intuito de auxiliar no processo de cuidado e plantio, BioGnosis propõe a criação de um sistema integrado de sensores de temperatura, umidade e luminosidade
-que possam monitorar as condições ideais de uma planta segundo um banco de dados definido em tempo de execução. Para maiores distâncias, há um aplicativo conectado
-aos sensores que capta as informações e repassa ao usuário, facilitando seu trabalho à longo alcance, não limitando o sistema a um ambiente pessoal.
+# Introdução ao Projeto
+
+O **BioGnosis** é um projeto desenvolvido na disciplina de **Projeto Integrado de Computação**, da **Universidade Federal do Espírito Santo (UFES)**, ministrada pelo professor **Jadir Eduardo Souza Lucas**. Seu objetivo é auxiliar no cuidado e cultivo de plantas por meio de um **sistema integrado de sensores** de temperatura, umidade e luminosidade, capaz de monitorar em tempo real as condições ideais de cada espécie, com base em um banco de dados configurável. Para permitir o acompanhamento à distância, o sistema conta com um **aplicativo conectado aos sensores**, que coleta e apresenta as informações ao usuário, tornando o monitoramento remoto prático e acessível, sem limitar o uso a um ambiente específico.
+
 
 ## Componentes
 
@@ -38,44 +37,43 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
 — Case de Baterias AA <br>
 — 3 Pilhas AA alcalinas. <br>
 
-
-### Software
-# 🌿 BioGnosis
+###  Software
 
 > **Gamificação e IoT aplicados ao monitoramento inteligente de plantas.**
 
 O **BioGnosis** é um aplicativo Android nativo que une a precisão da "Internet das Coisas" (IoT) com o engajamento da gamificação. O objetivo é democratizar o cultivo de plantas, traduzindo dados técnicos complexos (como níveis exatos de umidade e luminosidade) em uma interface visual, intuitiva e lúdica, acessível para usuários sem conhecimento técnico em botânica.
 
 
-## Visão Geral
+### Visão Geral
 
-O aplicativo atua como a interface de controle para um sistema de monitoramento baseado em microcontroladores (**ESP32/ESP8266**). Através de uma conexão MQTT, o BioGnosis recebe dados dos sensores em tempo real e os interpreta visualmente.
+O aplicativo atua como a interface de controle para um sistema de monitoramento baseado no microcontrolador ESP32-C3 Super Mini. Através de uma conexão MQTT, o BioGnosis recebe dados dos sensores em tempo real e os interpreta visualmente.
 
 A experiência do usuário é centrada na "saúde" da planta, representada por barras de vida e status gamificados. O usuário não apenas monitora, mas "cuida" da planta como em um jogo, desbloqueando conquistas e garantindo a sobrevivência do seu cultivo digital e físico.
 
 
-## Funcionalidades Principais
+### Funcionalidades Principais
 
-### 1. 🎮 Front-End & UX (Gamificação)
+### 1.  Front-End & UX (Gamificação)
 O aplicativo é dividido em três módulos principais de navegação, acessíveis via *MeowBottomNavigation*:
 
-* **🏠 Home (Dashboard):**
-    * **Progressão Temporal (Dias vs. Lv):** O aplicativo inova ao substituir o tradicional "Nível" (Lv) de jogos pela contagem de **"Dias de Vida"**. O progresso do usuário é medido pela longevidade da planta, transformando o tempo de dedicação no principal indicador de sucesso.      
+* **Home (Dashboard):**
+    * **Progressão Temporal (Dias vs. LvL's):** O aplicativo inova ao substituir o tradicional "Nível" (LvL) de jogos pela contagem de **"Dias de Vida"**. O progresso do usuário é medido pela longevidade da planta, transformando o tempo de dedicação no principal indicador de sucesso.      
     * **Feedback Visual:** As barras variam de 0 a 100 com base no cálculo de estabilidade (setpoint ideal) de cada espécie, alterando cores e tamanhos para indicar urgência.
     * **Gestão de Plantas:** Menu *Bottom Sheet* para cadastro rápido. 
       * **Inventário Dinâmico:** Um menu deslizante que oferece acesso rápido a **todas as plantas cadastradas**. O usuário pode visualizar sua coleção completa e alternar qual planta está sendo monitorada na Home instantaneamente.
       * **Cadastro e Expansão:** Permite adicionar novas plantas ao sistema, selecionando nome e **espécie pré-definida** (incluindo Alface, Tomate, Couve-flor e Cebolinha), que já carregam os parâmetros ideais de cultivo.
+        <br>
 
-* **📊 Relatório (Analytics):**
+* **Relatório (Analytics):**
     * **Dados Brutos:** Visualização numérica das variáveis para usuários avançados.
     * **Histórico de Sobrevivência:** Contadores de "Dias de Vida", "Nº de Irrigações" e "Quase Mortes" (vida < 30%).
     * **Gráficos:** Renderização visual do histórico de dados via *MPAndroidChart*.
 
-* **🏆 Conquistas (Engajamento):**
+* **Conquistas (Engajamento):**
     * Sistema de troféus baseado em marcos (ex: "Sobreviver 1 ano", "Manter vida > 70% por 1000 medições").
     * Curiosidades educativas sobre a espécie cultivada e métodos de plantio.
 
-### 2. ⚙️ Back-End & Arquitetura
+### 2.  Back-End & Arquitetura
 O sistema foi desenvolvido com foco em performance e assincronicidade para garantir que a UI nunca trave enquanto aguarda respostas dos sensores.
 
 * **Comunicação MQTT Assíncrona:**
@@ -90,7 +88,7 @@ O sistema foi desenvolvido com foco em performance e assincronicidade para garan
     * Manipulação de dados JSON via **Google Gson** para troca de mensagens estruturadas com o dispositivo IoT.
 
 
-## Design e Assets
+### Design e Assets
 
 O projeto visual do BioGnosis rompe com a rigidez das interfaces tradicionais, adotando um conceito de **Design Orgânico e Minimalista**.
 
@@ -98,7 +96,7 @@ O projeto visual do BioGnosis rompe com a rigidez das interfaces tradicionais, a
 * **Minimalismo Funcional:** A paleta de cores e a disposição dos elementos foram pensadas para reduzir o ruído visual. O foco é mantido estritamente nas informações vitais (saúde da planta), garantindo que a tecnologia atue como um suporte invisível e elegante, sem sobrecarregar cognitivamente o usuário.
   
 
-## Tecnologias Utilizadas
+### Tecnologias Utilizadas
 
 * **Linguagem Principal:** Java (Android Nativo)
 * **Linguagens Auxiliares:** Kotlin (Integrações de UI), SQL (Banco de Dados)
@@ -106,7 +104,7 @@ O projeto visual do BioGnosis rompe com a rigidez das interfaces tradicionais, a
 * **Design & UI:** XML, Material Design
 
 
-### Bibliotecas e Dependências
+#### Bibliotecas e Dependências
 
 | Biblioteca | Função |
 | :--- | :--- |
@@ -119,11 +117,9 @@ O projeto visual do BioGnosis rompe com a rigidez das interfaces tradicionais, a
 | **WorkManager** | Gerenciamento de tarefas em segundo plano (threads). |
 
 
-## 💡 Sobre o Projeto
+<br>
 
-O BioGnosis é um projeto autoral, concebido e implementado do zero. Ele resolve o problema da "caixa preta" no monitoramento de plantas, onde sensores apenas entregam números. Aqui, os números viram cores, barras de vida e conquistas, aproximando a tecnologia da natureza de forma amigável.
-
-### Sistema
+## Circuito
 
 Desenvolvido através do Arduino IDE, o circuito possui um sistema próprio que é capaz de interpretar informações obtidas por meio dos sensores de seus respectivos parâmetros. Em questão, é necessário entender os seguintes componentes: o sensor de umidade do solo mede a resistência da terra e retorna um valor inteiro de 12 bits. O sensor de luminosidade, do tipo LDR, varia sua resistência de acordo com a incidência de luz, permitindo a leitura do nível de iluminação do ambiente. Por fim, o sensor de temperatura, do tipo DHT11, realiza a medição da temperatura ambiente e envia essas informações ao microcontrolador.
 
@@ -146,7 +142,7 @@ $$\large e^{-\frac{|\text{diff} - \text{tolerância}|}{\text{tolerância}}}$$
 
 
 
-Considere diff = valor ideal - valor medido.
+> Considere diff = valor ideal - valor medido.
 
 Isso garante que quanto mais distante do ideal, menor será a pontuação.
  
