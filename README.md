@@ -38,45 +38,92 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
 — Case de Baterias AA <br>
 — 3 Pilhas AA alcalinas. <br>
 
+
 ### Software
+# 🌿 BioGnosis
 
-##### Biognosis
+> **Gamificação e IoT aplicados ao monitoramento inteligente de plantas.**
 
-O BioGnosis é um aplicativo Android desenvolvido no Android Studio, utilizando Java e XML, com foco no monitoramento de plantas por meio de sensores que se comunicam via transmissão MQTT. O projeto aplica conceitos de gamificação para tornar a interpretação de dados como luminosidade e umidade mais acessível a usuários sem conhecimento técnico na área de plantio, por meio de uma interface minimalista e intuitiva.
-
-O aplicativo conta com uma aba inicial que exibe a planta cadastrada, apresentando barras gamificadas de luminosidade, umidade e vida (baseada em um cálculo de ambiente ideal para plantio). Possui também uma aba para cadastro de novas plantas, permitindo definir nome e tipo da planta, uma aba responsável pelo registro de estatísticas de cada planta e uma tela dedicada às conquistas, que incentivam o engajamento contínuo do usuário.
-
-
-## Funcionamento
-
-#### Aplicativo
-
-Desenvolvido de forma inovadora pelo grupo por meio do Android Studio, o aplicativo BioGnosis é um projeto totalmente autoral, concebido e implementado do zero, com o objetivo de apresentar informações visuais relevantes a partir das medições realizadas pelos sensores do ESP de forma assíncrona. <br>
+O **BioGnosis** é um aplicativo Android nativo que une a precisão da "Internet das Coisas" (IoT) com o engajamento da gamificação. O objetivo é democratizar o cultivo de plantas, traduzindo dados técnicos complexos (como níveis exatos de umidade e luminosidade) em uma interface visual, intuitiva e lúdica, acessível para usuários sem conhecimento técnico em botânica.
 
 
-##### Front-End
+## Visão Geral
 
-A interface gráfica do aplicativo possui três abas de navegação, a HOME, o RELATÓRIO e as CONQUISTAS. <br>
+O aplicativo atua como a interface de controle para um sistema de monitoramento baseado em microcontroladores (**ESP32/ESP8266**). Através de uma conexão MQTT, o BioGnosis recebe dados dos sensores em tempo real e os interpreta visualmente.
 
-— A Home é responsável por conter as principais informações referentes a planta, tratando-se de: dias de vida da planta, luminosidade, temperatura, umidade e a "barra de vida". Cada um dos parâmetros variam entre um valor de 0 a 100 definido pelo cálculo de estabilidade da planta e são interpretados para o usuário por meio de cores e tamanhos diferentes de barra. Além disso, essa aba conta com dois botoões: o menu de plantas e a "lixeira", responsáveis por, respectivamente, adicionar novas plantas ou navegar através do banco de dados e apagar a planta atual. O menu de plantas abre uma janela temporária (bottom sheet), que permite inserir um novo objeto de acordo com seu nome e sua espécie de planta (pré-definida pelo aplicativo), ou trocar a planta da home por uma da escolha do usuário. <br>
+A experiência do usuário é centrada na "saúde" da planta, representada por barras de vida e status gamificados. O usuário não apenas monitora, mas "cuida" da planta como em um jogo, desbloqueando conquistas e garantindo a sobrevivência do seu cultivo digital e físico.
 
-— O Relatório possui alguns dados principais da planta como: as variáveis padrões da planta em valores numéricos, número de dias, número de vezes irrigadas, número de "quase mortes" (quantidade de vezes em que a vida da planta chegou a menos de 30%), além de conter os gráficos que permitem um gerenciamento técnico de sua planta. <br>
 
-— A aba de conquistas trata-se de uma proposta de gamificar o aplicativo fornecendo interações lúdicas com o usuário através de troféus, por exemplo: a planta sobreviver por um ano e o usuário manteve a vida da planta acima de 70% durante 1000 medições. E, não obstante, informa ao usuário curiosidades interessantes sobre aquela espécie e seu método de plantio. <br>
+## Funcionalidades Principais
 
-##### Back-End
+### 1. 🎮 Front-End & UX (Gamificação)
+O aplicativo é dividido em três módulos principais de navegação, acessíveis via *MeowBottomNavigation*:
 
-O aplicativo foi projetado principalmente na linguagem Java, contudo, existem outras linguagens presentes no sistema, como: Kotlin (para certas bibliotecas gráficas) e SQL (utilizado para criação e gerenciamento do banco de dados das plantas). A estrutura básica do UI (User Interface), é feita através da linguagem de marcação XML (Linguagem de Marcação Extensível).
+* **🏠 Home (Dashboard):**
+    * **Progressão Temporal (Dias vs. Lv):** O aplicativo inova ao substituir o tradicional "Nível" (Lv) de jogos pela contagem de **"Dias de Vida"**. O progresso do usuário é medido pela longevidade da planta, transformando o tempo de dedicação no principal indicador de sucesso.      
+    * **Feedback Visual:** As barras variam de 0 a 100 com base no cálculo de estabilidade (setpoint ideal) de cada espécie, alterando cores e tamanhos para indicar urgência.
+    * **Gestão de Plantas:** Menu *Bottom Sheet* para cadastro rápido. 
+      * **Inventário Dinâmico:** Um menu deslizante que oferece acesso rápido a **todas as plantas cadastradas**. O usuário pode visualizar sua coleção completa e alternar qual planta está sendo monitorada na Home instantaneamente.
+      * **Cadastro e Expansão:** Permite adicionar novas plantas ao sistema, selecionando nome e **espécie pré-definida** (incluindo Alface, Tomate, Couve-flor e Cebolinha), que já carregam os parâmetros ideais de cultivo.
 
-Bibliotecas mais usadas:
+* **📊 Relatório (Analytics):**
+    * **Dados Brutos:** Visualização numérica das variáveis para usuários avançados.
+    * **Histórico de Sobrevivência:** Contadores de "Dias de Vida", "Nº de Irrigações" e "Quase Mortes" (vida < 30%).
+    * **Gráficos:** Renderização visual do histórico de dados via *MPAndroidChart*.
 
-Meowbottomnavigation - Cria uma barra de navegação pra interface gráfica utilizando o conceito da curva de Bezier (criando um estilo gráfico minimalista e agradável).
-MPAndroidChart - Utilizada pra criação de gráficos e interpretação de informações.
-FacebookShimmer - Cria uma animação de brilho utilizada como setup enquanto o sistema está carregando as informações.
-MQTTEclipse - Responsável pela conexão MQTT com o ESP32 C3 Super Mini.
-GoogleGson - Transforma uma string em um objeto json para manipulação de dados.
+* **🏆 Conquistas (Engajamento):**
+    * Sistema de troféus baseado em marcos (ex: "Sobreviver 1 ano", "Manter vida > 70% por 1000 medições").
+    * Curiosidades educativas sobre a espécie cultivada e métodos de plantio.
 
-#### Sistema
+### 2. ⚙️ Back-End & Arquitetura
+O sistema foi desenvolvido com foco em performance e assincronicidade para garantir que a UI nunca trave enquanto aguarda respostas dos sensores.
+
+* **Comunicação MQTT Assíncrona:**
+    * Utiliza o protocolo MQTT (via *Eclipse Paho Client*) para comunicação bidirecional com o ESP32.
+    * **Workers & Threads:** Implementação robusta utilizando `WorkManager` e Workers dedicados (como `MqttWorker` e `MqttResquisicaoWorker`) para processar conexões e requisições em segundo plano.
+    * **Sincronização:** Uso de `CountDownLatch` para gerenciar o fluxo de *Publish/Subscribe*, garantindo que o aplicativo aguarde a resposta do sensor de forma controlada antes de atualizar a UI.
+
+* **Persistência de Dados:**
+    * Utilização de **Room Database** (camada de abstração sobre SQLite) para armazenamento local seguro das plantas cadastradas e seus históricos.
+
+* **Serialização:**
+    * Manipulação de dados JSON via **Google Gson** para troca de mensagens estruturadas com o dispositivo IoT.
+
+
+## Design e Assets
+
+O projeto visual do BioGnosis rompe com a rigidez das interfaces tradicionais, adotando um conceito de **Design Orgânico e Minimalista**.
+
+* **Formas Orgânicas:** A interface prioriza bordas arredondadas e linhas suaves, criando uma estética fluida que reflete a naturalidade das plantas. O uso de curvas (como as Curvas de Bézier na barra de navegação) elimina a agressividade dos ângulos retos, proporcionando uma navegação mais amigável e moderna.
+* **Minimalismo Funcional:** A paleta de cores e a disposição dos elementos foram pensadas para reduzir o ruído visual. O foco é mantido estritamente nas informações vitais (saúde da planta), garantindo que a tecnologia atue como um suporte invisível e elegante, sem sobrecarregar cognitivamente o usuário.
+  
+
+## Tecnologias Utilizadas
+
+* **Linguagem Principal:** Java (Android Nativo)
+* **Linguagens Auxiliares:** Kotlin (Integrações de UI), SQL (Banco de Dados)
+* **IDE:** Android Studio
+* **Design & UI:** XML, Material Design
+
+
+### Bibliotecas e Dependências
+
+| Biblioteca | Função |
+| :--- | :--- |
+| **MeowBottomNavigation** | Navegação com curvas de Bézier e design minimalista. |
+| **MPAndroidChart** | Criação e renderização dos gráficos de relatório. |
+| **Facebook Shimmer** | Feedback de carregamento (loading skeleton) elegante. |
+| **Eclipse Paho MQTT** | Cliente MQTT para conexão IoT. |
+| **Google Gson** | Serialização e desserialização de objetos JSON. |
+| **Room Database** | Persistência de dados local. |
+| **WorkManager** | Gerenciamento de tarefas em segundo plano (threads). |
+
+
+## 💡 Sobre o Projeto
+
+O BioGnosis é um projeto autoral, concebido e implementado do zero. Ele resolve o problema da "caixa preta" no monitoramento de plantas, onde sensores apenas entregam números. Aqui, os números viram cores, barras de vida e conquistas, aproximando a tecnologia da natureza de forma amigável.
+
+### Sistema
 
 Desenvolvido através do Arduino IDE, o circuito possui um sistema próprio que é capaz de interpretar informações obtidas por meio dos sensores de seus respectivos parâmetros. Em questão, é necessário entender os seguintes componentes: o sensor de umidade do solo mede a resistência da terra e retorna um valor inteiro de 12 bits. O sensor de luminosidade, do tipo LDR, varia sua resistência de acordo com a incidência de luz, permitindo a leitura do nível de iluminação do ambiente. Por fim, o sensor de temperatura, do tipo DHT11, realiza a medição da temperatura ambiente e envia essas informações ao microcontrolador.
 
