@@ -42,7 +42,7 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
 ### Hardware
 
 — ESP32-C3 Super Mini <br>
-— Sensor de umidade e temperatura do ar (DHT11) <br>
+— Sensor de umidade do ar e temperatura (DHT11) <br>
 — Sensor de umidade do solo (Módulo sensor de umidade do solo) <br>
 — Sensor de luminosidade (LDR) <br>
 — Case de Baterias AA <br>
@@ -217,6 +217,7 @@ $$\large e^{-\frac{|\text{diff} - \text{tolerância}|}{\text{tolerância}}}$$
 
 
 > Considere diff = valor ideal - valor medido.
+> Caso a diferença seja menor do que a tolerância, o score é 1.
 
 Isso garante que quanto mais distante do ideal, menor será a pontuação.
  
