@@ -33,7 +33,6 @@ Protótipo funcional do sistema de monitoramento inteligente instalado em vaso d
 
 <p align="center">
 <img src="https://github.com/Lovattii/BioGnosis/blob/main/images/BIOGNOSIS%20-%20EXEMPLO%20FIS%201.jpeg" width="427">
-<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/BIOGNOSIS%20-%20EXEMPLO%20FIS%202.jpeg" width="555">
 </p>
 
 ## Componentes
