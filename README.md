@@ -23,6 +23,18 @@
 
 O **BioGnosis** é um projeto desenvolvido na disciplina de **Projeto Integrado de Computação**, da **Universidade Federal do Espírito Santo (UFES)**, ministrada pelo professor **Jadir Eduardo Souza Lucas**. Seu objetivo é auxiliar no cuidado e cultivo de plantas por meio de um **sistema integrado de sensores** de temperatura, umidade e luminosidade, capaz de monitorar em tempo real as condições ideais de cada espécie, com base em um banco de dados configurável. Para permitir o acompanhamento à distância, o sistema conta com um **aplicativo conectado aos sensores**, que coleta e apresenta as informações ao usuário, tornando o monitoramento remoto prático e acessível, sem limitar o uso a um ambiente específico.
 
+# Preview do Projeto
+
+<br>
+
+Protótipo funcional do sistema de monitoramento inteligente instalado em vaso de planta, com sensores integrados ao ESP32.
+<br>
+<br>
+
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/BIOGNOSIS%20-%20EXEMPLO%20FIS%201.jpeg" width="427">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/BIOGNOSIS%20-%20EXEMPLO%20FIS%202.jpeg" width="555">
+</p>
 
 ## Componentes
 
@@ -36,6 +48,32 @@ Para funcionamento do trabalho, utilizamos os seguintes componentes:
 — Sensor de luminosidade (LDR) <br>
 — Case de Baterias AA <br>
 — 3 Pilhas AA alcalinas. <br>
+
+### Montagem do Circuito
+
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/Montagem%20do%20Circuito.jpeg" width="500">
+</p>
+
+O circuito foi montado de forma compacta dentro de uma case impressa em 3D, integrando o ESP32, sensores ambientais e sistema de alimentação independente. As conexões foram realizadas majoritariamente por solda direta no microcontrolador, dispensando o uso de protoboard e aumentando a estabilidade mecânica do conjunto. Externamente há o módulo do sensor de umidade do solo e, na parte superior da caixa, há um LDR para obter dados referentes a luminosidade.
+
+A case de impressão 3D fornece robustez ao sistema, protegendo os componentes internos que são, por ordem: o microcontrolador ESP32, a case contendo três pilhas alcalinas AA (sendo possível o desligamento através de uma alavanca), o sensor de temperatura DHT 11 e toda a conexão através de jumpers e soldas diretas.
+
+### Pinagem Padrão do ESP32-C3 Super Mini
+
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/86167eab-45c7-4f31-bda3-43e8f4e8f5be.png" width="700">
+</p>
+
+No caso do projeto, o código do ESP define como pinos para os sensores:
+
+```c++
+#define pinoLDR 2
+#define pinoUmidade 0
+#define DHT_PIN 1
+```
+
+Levando em consideração que todos finalizam em um GND comum.
 
 ###  Software
 
@@ -158,7 +196,9 @@ O projeto visual do BioGnosis rompe com a rigidez das interfaces tradicionais, a
 
 Desenvolvido através do Arduino IDE, o circuito possui um sistema próprio que é capaz de interpretar informações obtidas por meio dos sensores de seus respectivos parâmetros. Em questão, é necessário entender os seguintes componentes: o sensor de umidade do solo mede a resistência da terra e retorna um valor inteiro de 12 bits. O sensor de luminosidade, do tipo LDR, varia sua resistência de acordo com a incidência de luz, permitindo a leitura do nível de iluminação do ambiente. Por fim, o sensor de temperatura, do tipo DHT11, realiza a medição da temperatura ambiente e envia essas informações ao microcontrolador.
 
-Utilizando a biblioteca WiFiManager, o ESP é configurado como um access point temporário, tornando-se visível na lista de redes disponíveis. Após a conexão, o usuário insere os dados de sua rede, permitindo o acesso do sistema à internet. Em seguida, os dados coletados pelos sensores são enviados via protocolo MQTT ao EMQX, um broker público previamente configurado no ESP.
+Utilizando a biblioteca WiFiManager, o ESP é configurado como um access point temporário, tornando-se visível na lista de redes disponíveis. Após a conexão, o usuário insere os dados de sua rede, permitindo o acesso do sistema à internet. Em seguida, os dados coletados pelos sensores são enviados via protocolo MQTT ao EMQX, um broker público previamente configurado no ESP. Portanto, podemos declarar o fluxograma do projeto algo como:
+
+**Sensores → ESP → MQTT → App → Banco de Dados → Interface Gráfica**
 
 
 #### Cálculo de estabilidade da planta
@@ -185,7 +225,33 @@ Cada score é multiplicado pelo peso definido para o parâmetro. Em seguida, cal
 
 $$\text{estabilidade} = \frac{(\text{score}_{\text{temp}} \cdot \text{peso}_{\text{temp}}) + (\text{score}_{\text{lum}} \cdot \text{peso}_{\text{lum}}) + (\text{score}_{\text{hum}} \cdot \text{peso}_{\text{hum}})}{\text{peso}_{\text{temp}} + \text{peso}_{\text{lum}} + \text{peso}_{\text{hum}}} \cdot 100$$
 
-O resultado final é um valor percentual entre 0% e 100%, representando a "vida" ou estabilidade da planta.
+O resultado final é um valor percentual entre 0% e 100%, representando a "vida" ou estabilidade da planta.<br>
+<br>
+
+## Dificuldades e Desafios
+
+A parte física do projeto foi desenvolvida em concomitância com o aplicativo, portanto, planejar o sistema não foi uma complicação inicial.
+Em tópicos principais, os empecilhos iniciais apresentaram-se como:
+
+— **Dificuldade na calibração de sensores:** Os sensores de luminosidade e umidade do solo retornam valores numéricos ao invés de medidas reais. Foram precisas diversas etapas e testes de calibração para desenvolver uma faixa ideal para certos tipos de planta, delimitando números "máximos" ou "mínimos" de luminosidade e umidade.<br>
+
+— **Aprendizado do MQTT:** Os estudos de manuseio da ferramenta do MQTT levaram algum tempo, principalmente na conexão do aplicativo com os dados enviados através do ESP. Contudo, não foi a etapa mais difícil do projeto.<br>
+
+— **Consumo de bateria do ESP/Superaquecimento do microcontrolador:** Como um dos processos que levaram mais tempo na execução prática, o gerenciamento da biblioteca WifiManager consome muito do microcontrolador, principalmente tratando-se do ESP32-C3 Super Mini. Em troca de menos consumo de espaço, as capacidades de processamento e utilização da bateria decaem. Conforme o uso do Wifi se prolonga, a tendência é que o ESP esquente e suas funções tenham uma queda na eficiência que foi resolvida parcialmente otimizando as funções do projeto e, para projeções futuras, trocando o microcontrolador para um mais sustentável.<br>
+
+— **Desenvolvimento do aplicativo:** Em resumo, a etapa que mais levou tempo e necessitou de manutenção constante. Por escolha da equipe o aplicativo foi desenvolvido do zero, sendo necessário aprender Java enquanto o desenvolvimento do circuito físico estava em progresso. Foram diversas reuniões a respeito de interpretação de dados e integração do Hardware ao Software, buscando trazer uma experiência mais suave ao usuário.<br>
+
+
+#### Aprendizados
+
+Através do desenvolvimento do projeto, novas experiências foram obtidas por meio do constante estudo e planejamento do sistema como um todo.
+Além da prática de uma linguagem de programação que não tinhámos conhecimento aprofundado sobre, foi necessário questionar cálculos, buscar dados sobre uma área que não é popularmente requisitada no curso (Biologia) e, como uma prática de desenvolvimento em grupo, trabalhamos na comunicação interpessoal dos integrantes do projeto.
+
+#### Projeções Futuras
+
+Como continuidade conceitual deste projeto, identificam-se algumas possibilidades de evolução que podem ser exploradas futuramente, mantendo a proposta de simplicidade e baixo custo. Uma possibilidade relevante consiste no aprimoramento da infraestrutura de backend, de modo a permitir o armazenamento estruturado e persistente dos dados coletados, possibilitando maior confiabilidade e organização das informações.<br>
+
+Outra possibilidade envolve a ampliação do suporte a múltiplos dispositivos, permitindo que diferentes vasos ou módulos de monitoramento enviem dados simultaneamente para a aplicação. Embora o aplicativo já apresente uma aba com diferentes plantas, essa evolução permitiria que cada uma possuísse seus próprios dados associados. <br>
 
 
 ## Colaboradores
