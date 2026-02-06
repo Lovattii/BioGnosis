@@ -83,10 +83,18 @@ O aplicativo é dividido em três módulos principais de navegação, acessívei
 
 <br>
 
-* **Relatório (Analytics):**
-    * **Dados Brutos:** Visualização numérica das variáveis para usuários avançados.
-    * **Histórico de Sobrevivência:** Contadores de "Dias de Vida", "Nº de Irrigações" e "Quase Mortes" (vida < 30%).
-    * **Gráficos:** Renderização visual do histórico de dados via *MPAndroidChart*.
+<br>
+<p align="center">
+<strong>Relatório (Analytics)</strong>
+</p>
+<p align="center">
+<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/WhatsApp%20Image%202026-02-05%20at%2017.16.22.jpeg" width="300"><br>  
+</p>
+<br>
+
+  * **Dados Brutos:** Visualização numérica das variáveis para usuários avançados.
+* **Histórico de Sobrevivência:** Contadores de "Dias de Vida", "Nº de Irrigações" e "Quase Mortes" (vida < 30%).
+  * **Gráficos:** Renderização visual do histórico de dados via *MPAndroidChart*.
 
 <br>
 <p align="center">
