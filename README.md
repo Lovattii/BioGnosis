@@ -23,6 +23,8 @@
 
 O **BioGnosis** é um projeto desenvolvido na disciplina de **Projeto Integrado de Computação**, da **Universidade Federal do Espírito Santo (UFES)**, ministrada pelo professor **Jadir Eduardo Souza Lucas**. Seu objetivo é auxiliar no cuidado e cultivo de plantas por meio de um **sistema integrado de sensores** de temperatura, umidade e luminosidade, capaz de monitorar em tempo real as condições ideais de cada espécie, com base em um banco de dados configurável. Para permitir o acompanhamento à distância, o sistema conta com um **aplicativo conectado aos sensores**, que coleta e apresenta as informações ao usuário, tornando o monitoramento remoto prático e acessível, sem limitar o uso a um ambiente específico.
 
+O repositório é documentado a partir do Readme e de suas duas branches que são, em ordem: main (possui o código do ESP) e master (possui toda a estrutura do aplicativo).
+
 # Preview do Projeto
 
 <br>
