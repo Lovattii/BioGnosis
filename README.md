@@ -29,13 +29,14 @@ O repositório é documentado a partir do Readme e de suas duas branches que sã
 
 <br>
 
-Protótipo funcional do sistema de monitoramento inteligente instalado em vaso de planta, com sensores integrados ao ESP32.
-<br>
-<br>
-
 <p align="center">
-<img src="https://github.com/Lovattii/BioGnosis/blob/main/images/BIOGNOSIS%20-%20EXEMPLO%20FIS%201.jpeg" width="427">
+  <strong>Assista ao vídeo do projeto no YouTube!</strong>
+  <br>
+  <a href="https://www.youtube.com/watch?v=aySUlsA4xTc"><br>
+    <img src="https://img.youtube.com/vi/aySUlsA4xTc/0.jpg" width="600">
+  </a>
 </p>
+<br>
 
 ## Componentes
 
